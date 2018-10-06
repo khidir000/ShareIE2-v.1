@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="left_margin">10dp</dimen>
+    <dimen name="top_margin_text">10dp</dimen>
+    <dimen name="top_image">18dp</dimen>
+</resources>

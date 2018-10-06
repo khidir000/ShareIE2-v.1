@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Share-IE</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="pencarian">Cari...</string>
+    <string-array name="user_nama">
+        <item>Khidir</item>
+        <item>Wira</item>
+        <item>Putra</item>
+        <item>Brian</item>
+        <item>Rian</item>
+        <item>Yana</item>
+        <item>Vio</item>
+    </string-array>
+</resources>
