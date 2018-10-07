@@ -3,6 +3,7 @@ package com.example.zhack.share_ie
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.example.zhack.share_ie.berita.control_berita
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -18,6 +19,7 @@ class MainActivity : AppCompatActivity() {
             jadwal.clearColorFilter()
             laporan.clearColorFilter()
         }
+
     }
 
     private fun initFragment(classFragment: Fragment){

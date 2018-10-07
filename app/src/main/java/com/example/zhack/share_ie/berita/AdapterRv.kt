@@ -1,10 +1,11 @@
-package com.example.zhack.share_ie
+package com.example.zhack.share_ie.berita
 
-import android.net.sip.SipSession
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.zhack.share_ie.API.DataInterface
+import com.example.zhack.share_ie.R
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.tampilan_berita.view.*
@@ -20,7 +21,7 @@ class AdapterRv(private val dataList:ArrayList<DataInterface>
     }
 
     interface Listener{
-        fun onItemClick(android:DataInterface)
+        fun onItemClick(android: DataInterface)
     }
 
     override fun getItemCount(): Int = dataList.size
@@ -30,7 +31,7 @@ class AdapterRv(private val dataList:ArrayList<DataInterface>
     }
 
     class DataHolder(view: View):RecyclerView.ViewHolder(view){
-        fun bind(android:DataInterface, listener:Listener, position: Int){
+        fun bind(android: DataInterface, listener: Listener, position: Int){
             itemView.nama_user.text = android.teamName
             itemView.body_status.text = android.strDescriptionEN
             val image:CircleImageView = itemView.findViewById(R.id.imagecircle)

@@ -1,4 +1,4 @@
-package com.example.zhack.share_ie
+package com.example.zhack.share_ie.berita
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -7,17 +7,21 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.zhack.share_ie.API.DataCategory
+import com.example.zhack.share_ie.API.DataInterface
+import com.example.zhack.share_ie.R
+import com.example.zhack.share_ie.API.RequestData
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.berita.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class control_berita : Fragment(),AdapterRv.Listener{
+class control_berita : Fragment(), AdapterRv.Listener {
 
     private var mCompositeDisposable:CompositeDisposable?=null
     private var mAndroidList:ArrayList<DataInterface>?=null
-    private var madapter:AdapterRv? = null
+    private var madapter: AdapterRv? = null
 
     override fun onItemClick(android: DataInterface) {
 
@@ -47,7 +51,7 @@ class control_berita : Fragment(),AdapterRv.Listener{
                 if (response!=null){
                     var list:List<DataInterface> = response.body()!!.teams
                     mAndroidList = ArrayList(list)
-                    madapter = AdapterRv(mAndroidList!!,this@control_berita)
+                    madapter = AdapterRv(mAndroidList!!, this@control_berita)
                     rv.adapter = madapter
 
                 }

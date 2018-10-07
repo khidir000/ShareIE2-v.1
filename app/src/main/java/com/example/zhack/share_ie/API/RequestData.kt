@@ -1,12 +1,9 @@
-package com.example.zhack.share_ie
+package com.example.zhack.share_ie.API
 
-import android.provider.ContactsContract
-import io.reactivex.Observable
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
-import java.util.*
 
 interface RequestData{
     @GET("search_all_teams.php?l=Italian%20Serie%20A")
@@ -14,7 +11,7 @@ interface RequestData{
 
     companion object {
         val BASE_URL = "https://thesportsdb.com/api/v1/json/1/"
-        fun create():RequestData{
+        fun create(): RequestData {
             val retrofit = Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
