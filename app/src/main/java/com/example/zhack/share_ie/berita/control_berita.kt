@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.design.widget.BottomSheetDialog
 import android.support.design.widget.BottomSheetDialogFragment
 import android.support.v4.app.Fragment
+import android.support.v4.view.ViewCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -20,6 +21,7 @@ import com.example.zhack.share_ie.komentar.Komentar
 import com.yalantis.phoenix.PullToRefreshView
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.extensions.ContainerOptions
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.berita.*
 import kotlinx.android.synthetic.main.design_bottom_sheet_dialog.*
 import kotlinx.android.synthetic.main.tampilan_berita.*
@@ -55,6 +57,7 @@ class control_berita : Fragment(), AdapterRv.Listener {
              mCompositeDisposable = CompositeDisposable()
              initRecyclerView()
              callWebService()
+             offset(0)
              pull_refresh.setOnRefreshListener{
                  pull_refresh.postDelayed(Runnable {
                      showList()
@@ -63,6 +66,14 @@ class control_berita : Fragment(), AdapterRv.Listener {
              }
 //             fungsiClick()
          }
+
+    private fun offset(vertical:Int){
+        if(scroll.verticalScrollbarPosition == vertical){
+            pull_refresh.setRefreshing(false)
+        }else{
+            pull_refresh.setRefreshing(true)
+        }
+    }
     private fun callWebService(){
         val apiService = RequestData.create()
 
