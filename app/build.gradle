@@ -56,6 +56,7 @@ dependencies {
     implementation 'com.github.clans:fab:1.6.2'
     implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
     implementation 'com.kelin.scrollablepanel:library:1.2.0'
+    implementation 'com.xwray:passwordview:1.0'
     implementation 'com.stone.vega.library:VegaLayoutManager:1.0.1'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
