@@ -26,9 +26,11 @@ import kotlinx.android.synthetic.main.berita.*
 import kotlinx.android.synthetic.main.design_bottom_sheet_dialog.*
 import kotlinx.android.synthetic.main.tampilan_berita.*
 import kotlinx.android.synthetic.main.tampilan_berita.view.*
+import okhttp3.Cache
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
 
 class control_berita : Fragment(), AdapterRv.Listener {
 
@@ -49,6 +51,16 @@ class control_berita : Fragment(), AdapterRv.Listener {
     }
 
 
+    override fun onResume() {
+        super.onResume()
+        shimmer.startShimmerAnimation()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        shimmer.stopShimmerAnimation()
+    }
+
     override fun onCreateView(inflater: LayoutInflater,
                                        container: ViewGroup?,
                                        savedInstanState: Bundle?) = inflater.inflate(R.layout.berita,container,false)
@@ -62,6 +74,8 @@ class control_berita : Fragment(), AdapterRv.Listener {
                  pull_refresh.postDelayed(Runnable {
                      showList()
                      callWebService()
+                     shimmer_layout.visibility = View.VISIBLE
+                     shimmer.startShimmerAnimation()
                  },2000)
              }
 //             fungsiClick()
@@ -89,7 +103,9 @@ class control_berita : Fragment(), AdapterRv.Listener {
                     mAndroidList = ArrayList(list)
                     madapter = AdapterRv(mAndroidList!!, this@control_berita)
                     rv.adapter = madapter
-
+                    rv.visibility = View.VISIBLE
+                    shimmer.stopShimmerAnimation()
+                    shimmer_layout.visibility = View.INVISIBLE
                 }
             }
         })
@@ -108,6 +124,11 @@ class control_berita : Fragment(), AdapterRv.Listener {
         madapter?.notifyDataSetChanged()
         pull_refresh.setRefreshing(false)
     }
+
+//    fun loadData(){
+//        val cacheSize = 5*1024*1024
+//        val cache = Cache(context!!.cacheDir,cacheSize.toLong())
+//    }
 
 
 }

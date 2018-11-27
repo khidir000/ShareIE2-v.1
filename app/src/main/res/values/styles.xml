@@ -18,4 +18,28 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="Splashscreen" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="BoatItem" parent="AppTheme">
+
+    </style>
+    <style name="BoatItem.Photo">
+        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_height">100dp</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+    <style name="BoatItem.latar">
+        <item name="android:layout_width">300dp</item>
+        <item name="android:layout_height">300dp</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+    <style name="Tombol" parent="AppTheme">
+    </style>
+    <style name="Tombol.login">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:scaleType">center</item>
+    </style>
 </resources>
