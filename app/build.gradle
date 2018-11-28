@@ -8,7 +8,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.example.zhack.share_ie"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -58,6 +58,8 @@ dependencies {
     implementation 'com.kelin.scrollablepanel:library:1.2.0'
     implementation 'com.xwray:passwordview:1.0'
     implementation 'com.stone.vega.library:VegaLayoutManager:1.0.1'
+    implementation 'com.lapism:searchview:27.1.1.0.0'
+    implementation 'com.miguelcatalan:materialsearchview:1.4.0'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
