@@ -20,7 +20,7 @@
         fab:menu_colorPressed="#dc4b3f"
         fab:menu_colorRipple="#99d4d4d4"
         fab:menu_fab_size="normal"
-        fab:menu_icon="@drawable/pensil"
+        fab:menu_icon="@drawable/add"
         fab:menu_labels_colorNormal="#FFF"
         fab:menu_labels_colorRipple="#66efecec"
         fab:menu_labels_cornerRadius="3dp"
@@ -48,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/pesan"
-            fab:fab_label="Tulis Pesan"
+            fab:fab_label="Pesan"
             fab:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
@@ -56,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/pensil"
-            fab:fab_label="Tulis Berita"
+            fab:fab_label="Berita"
             fab:fab_size="mini" />
     </com.github.clans.fab.FloatingActionMenu>
 </RelativeLayout>

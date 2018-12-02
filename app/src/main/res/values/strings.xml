@@ -4,15 +4,22 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="pencarian">Cari...</string>
-    <string-array name="user_nama">
-        <item>Khidir</item>
-        <item>Wira</item>
-        <item>Putra</item>
-        <item>Brian</item>
-        <item>Rian</item>
-        <item>Yana</item>
-        <item>Vio</item>
-    </string-array>
-    <string name="body">Share-ie merupakan aplikasi sistem informasi yang dibuat untuk mempermudah sivitas akademik dalam mengelola
-    informasi di Fakultas Teknik Universitas Mataram</string>
+    <string name="action_settings">Settings</string>
+    <string name="about">About</string>
+    <string name="login_success">login success</string>
+    <string name="login">LOGIN</string>
+    <string name="Username">Email</string>
+    <string name="Password">Password</string>
+    <string name="forgot_your_password">Copyright KediriDev</string>
+    <string name="go">GO</string>
+    <string name="repeat_password">Repeat Password</string>
+    <string name="next">NEXT</string>
+    <string name="register">REGISTER</string>
+
+    <string name="hint_username">Enter a new username</string>
+    <string name="hint_email_reset">Enter your email</string>
+    <string name="enter_group_name">Enter group name</string>
+    <string name="pref_file">com.example.zhack.preference_file</string>
+    <string name="pref_login_status">com.example.zhack.preference_login_status</string>
+    <string name="pref_user_name">com.example.zhack.preference_user_name</string>
 </resources>
