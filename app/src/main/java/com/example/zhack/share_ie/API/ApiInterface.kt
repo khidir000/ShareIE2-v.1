@@ -1,5 +1,7 @@
 package com.example.zhack.share_ie.API
 
+import com.example.zhack.share_ie.model.DataBerita
+import com.example.zhack.share_ie.model.User
 import retrofit2.Call
 import retrofit2.http.*
 

@@ -1,13 +1,7 @@
 package com.example.zhack.share_ie.berita
 
-import android.content.Context
-import android.net.sip.SipSession
 import android.os.Bundle
-import android.provider.ContactsContract
-import android.support.design.widget.BottomSheetDialog
-import android.support.design.widget.BottomSheetDialogFragment
 import android.support.v4.app.Fragment
-import android.support.v4.view.ViewCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -17,42 +11,38 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.example.zhack.share_ie.API.*
 import com.example.zhack.share_ie.R
-import com.example.zhack.share_ie.komentar.Komentar
-import com.lapism.searchview.Search
+import com.example.zhack.share_ie.komentar.adapterKomentar
+import com.example.zhack.share_ie.model.DataBerita
+import com.example.zhack.share_ie.model.DataKomentar
 import com.yalantis.phoenix.PullToRefreshView
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.extensions.ContainerOptions
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.berita.*
-import kotlinx.android.synthetic.main.design_bottom_sheet_dialog.*
-import kotlinx.android.synthetic.main.tampilan_berita.*
-import kotlinx.android.synthetic.main.tampilan_berita.view.*
-import okhttp3.Cache
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.File
 
 class control_berita : Fragment(), AdapterRv.Listener {
 
     private var mCompositeDisposable:CompositeDisposable?=null
     private var mAndroidList:ArrayList<DataBerita>?=null
+    public var mListKomentar:ArrayList<DataKomentar>?=null
     private var madapter: AdapterRv? = null
+    public var adapter:adapterKomentar? = null
     private lateinit var pullToRefreshView: PullToRefreshView
 
-    override fun onItemClick(view: View) {
-        view.komentar.setOnClickListener {
-//            val view = layoutInflater.inflate(R.layout.komentar,null)
-//            val dialog = BottomSheetDialog(requireContext())
-//            dialog.setContentView(view)
-//            dialog.show()
-            val komentar = Komentar()
-            komentar.show(fragmentManager?.beginTransaction(),komentar.tag)
+    override fun onItemClick(view:View) {
+        view.setOnClickListener {
+            Toast.makeText(context,it.berita.toString(), Toast.LENGTH_LONG)
         }
+//        view.komentar.setOnClickListener {
+//            val komentar = Komentar()
+//            komentar.show(fragmentManager?.beginTransaction(),komentar.tag)
+//
+//        }
     }
-
 
     override fun onResume() {
         super.onResume()
@@ -105,47 +95,29 @@ class control_berita : Fragment(), AdapterRv.Listener {
 //                    Toast.makeText(this@Login,t.toString(),Toast.LENGTH_LONG).show()
                 Log.e("pesan",t.toString())
             }
-
             override fun onResponse(call: Call<List<DataBerita>>, response: Response<List<DataBerita>>) {
                 if (response.isSuccessful) {
+                    val datum = response.body()
                     var list:List<DataBerita> = response.body()!!
                     mAndroidList = ArrayList(list)
-                    Log.d("pesan", ""+ mAndroidList!![0].toString())
+
+                    datum?.map {
+//                        Log.d("pesan","datanya ${it.komentar[0].isi_komentar}")
+//                        var list_data:List<DataKomentar> = listOf(it.komentar[0])
+//                        mListKomentar = ArrayList(list_data)
+                        //Log.d("pesan", ""+ mListKomentar)
+                    }
                     madapter = AdapterRv(mAndroidList!!, this@control_berita)
                     rv.adapter = madapter
                     rv.visibility = View.VISIBLE
                     shimmer.stopShimmerAnimation()
                     shimmer_layout.visibility = View.INVISIBLE
                 }else{
-                    Toast.makeText(context,"gagal",Toast.LENGTH_LONG).show()
+
                 }
                 // copyright.setText(nil)
             }
         })
-//
-//        val apiService = ApiClient.create()
-//
-//        val call = apiService.getDetail("1","$1$2sfM/5nA$9daS2k3J1Iapwgs.b2V7d0")
-////
-//        call.enqueue(object : Callback<Kategori> { //Callback<DataCategory>
-//            override fun onFailure(call: Call<Kategori>, t: Throwable) { //Callback<DataCategory>
-//            }
-//
-//            override fun onResponse(call: Call<Kategori>, response: Response<Kategori>) {
-//                if (response!=null){
-//
-//                    var list:List<DataKomentar> = response.body()!!.komentar
-//                    mAndroidList = ArrayList(list)
-//                    madapter = AdapterRv(mAndroidList!!, this@control_berita)
-//                    rv.adapter = madapter
-//                    rv.visibility = View.VISIBLE
-//                    shimmer.stopShimmerAnimation()
-//                    shimmer_layout.visibility = View.INVISIBLE
-//                }else{
-//                    Log.d("pesan","error_komentar = "+response.toString())
-//                }
-//            }
-//        })
     }
 
     private fun initRecyclerView() {
@@ -161,11 +133,11 @@ class control_berita : Fragment(), AdapterRv.Listener {
         madapter?.notifyDataSetChanged()
         pull_refresh.setRefreshing(false)
     }
+    
 
 //    fun loadData(){
 //        val cacheSize = 5*1024*1024
 //        val cache = Cache(context!!.cacheDir,cacheSize.toLong())
 //    }
-
 
 }

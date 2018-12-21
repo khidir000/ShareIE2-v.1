@@ -8,7 +8,7 @@
     <string name="about">About</string>
     <string name="login_success">login success</string>
     <string name="login">LOGIN</string>
-    <string name="Username">Email</string>
+    <string name="Username">Username</string>
     <string name="Password">Password</string>
     <string name="forgot_your_password">Copyright KediriDev</string>
     <string name="go">GO</string>
@@ -21,5 +21,6 @@
     <string name="enter_group_name">Enter group name</string>
     <string name="pref_file">com.example.zhack.preference_file</string>
     <string name="pref_login_status">com.example.zhack.preference_login_status</string>
-    <string name="pref_user_name">com.example.zhack.preference_user_name</string>
+    <string name="pref_token">com.example.zhack.preference_token</string>
+    <string name="pref_id">com.example.zhack.preference_id</string>
 </resources>

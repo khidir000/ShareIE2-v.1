@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SplashScreen"
+        <activity android:name=".Splash"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/Splashscreen"
             android:noHistory="true"
@@ -29,9 +29,6 @@
         <activity android:name=".MainActivity"
             android:windowSoftInputMode="adjustNothing"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
         </activity>
     </application>
 

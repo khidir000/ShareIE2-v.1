@@ -1,6 +1,5 @@
-package com.example.zhack.share_ie.API
+package com.example.zhack.share_ie.model
 
-import com.google.gson.annotations.SerializedName
 import retrofit2.Call
 
 

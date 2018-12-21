@@ -42,15 +42,6 @@
         fab:menu_shadowYOffset="4dp"
         fab:menu_showShadow="true">
 
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/upload_pesan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/pesan"
-            fab:fab_label="Pesan"
-            fab:fab_size="mini" />
-
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/upload_berita"
             android:layout_width="wrap_content"

@@ -1,31 +1,15 @@
 package com.example.zhack.share_ie.API
 
+import com.example.zhack.share_ie.model.DataBerita
+import com.example.zhack.share_ie.model.Komentar_isi
+import com.example.zhack.share_ie.model.User
 import com.google.gson.GsonBuilder
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 
 interface ApiClient {
-
-//    public val BASE_URL: String = "https://elennovation.com/khidir/index.php/"
-//    public var retrofit: Retrofit? =null
-//
-//
-//    public fun getApiClient(): Retrofit? {
-//        if (retrofit == null){
-//            retrofit =  Retrofit.Builder().baseUrl(BASE_URL)
-//                    .addConverterFactory(GsonConverterFactory.create())
-//                    .build()
-//        }
-//        return retrofit
-//    }
-
-//    @GET("search_all_teams.php?l=Italian%20Serie%20A")
-//    abstract fun getItemDetail(): Call<DataCategory>
-
 
     @Headers(
 
@@ -39,6 +23,10 @@ interface ApiClient {
                            @Header("Authorization")Auth:String?)
             : Call<List<DataBerita>>
 
+    @GET("berita")
+    abstract fun getKoment(@Header("User-Id")UserId:String?,
+                           @Header("Authorization")Auth:String?)
+            : Call<Komentar_isi>
 
     @Headers(
 

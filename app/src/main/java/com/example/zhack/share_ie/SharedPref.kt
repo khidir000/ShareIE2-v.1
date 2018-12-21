@@ -2,6 +2,7 @@ package com.example.zhack.share_ie
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.widget.Toast
 
 public class SharedPref
 {
@@ -22,6 +23,29 @@ public class SharedPref
 
     public fun bacaLoginStatus():Boolean{
         return sharedPreferences.getBoolean(context.getString(R.string.pref_login_status),false)
+    }
+
+    public fun writeToken(token:String){
+        var editor = sharedPreferences.edit()
+        editor.putString(context.getString(R.string.pref_token),token)
+        editor.commit()
+    }
+
+    public fun writeId(id:String){
+        var editor = sharedPreferences.edit()
+        editor.putString(context.getString(R.string.pref_id),id)
+    }
+
+    public fun readToken():String{
+        return sharedPreferences.getString(context.getString(R.string.pref_token),"Token")
+    }
+
+    public fun readId():String{
+        return sharedPreferences.getString(context.getString(R.string.pref_id),"Id")
+    }
+
+    public fun tampilToas(pesan:String){
+        Toast.makeText(context,pesan,Toast.LENGTH_LONG).show()
     }
 
 }
