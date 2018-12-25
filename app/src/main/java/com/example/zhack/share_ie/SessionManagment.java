@@ -28,10 +28,18 @@ public class SessionManagment {
         editor.commit();
     }
 
+    public void createUserDetail(String username, String name, String foto){
+        editor.putString(context.getString(R.string.pref_username),username);
+        editor.putString(context.getString(R.string.pref_name),name);
+        editor.putString(context.getString(R.string.pref_foto),foto);
+        editor.commit();
+    }
+
     public void checkLogin(){
         if(!this.isLoggedIn()){
             Intent i = new Intent(context,Login.class);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(i);
         }
@@ -50,6 +58,9 @@ public class SessionManagment {
         HashMap<String,String> user = new HashMap<String, String>();
         user.put(context.getString(R.string.pref_id),pref.getString(context.getString(R.string.pref_id),null));
         user.put(context.getString(R.string.pref_token),pref.getString(context.getString(R.string.pref_token),null));
+        user.put(context.getString(R.string.pref_username),pref.getString(context.getString(R.string.pref_username),null));
+        user.put(context.getString(R.string.pref_name),pref.getString(context.getString(R.string.pref_name),null));
+        user.put(context.getString(R.string.pref_foto),pref.getString(context.getString(R.string.pref_foto),null));
         return user;
     }
 
@@ -68,4 +79,10 @@ public class SessionManagment {
     public boolean isLoggedIn(){
         return pref.getBoolean(context.getString(R.string.pref_login_status),false);
     }
+
+    public String UserId(){return getUser().get(context.getString(R.string.pref_id));}
+    public String UserToken(){return getUser().get(context.getString(R.string.pref_token));}
+    public String UserUsername(){return  getUser().get(context.getString(R.string.pref_username));}
+    public String UserName(){return  getUser().get(context.getString(R.string.pref_name));}
+    public String UserFoto(){return getUser().get(context.getString(R.string.pref_foto));}
 }

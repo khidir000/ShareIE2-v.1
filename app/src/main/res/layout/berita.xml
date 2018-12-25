@@ -51,10 +51,6 @@
                                 layout="@layout/place_holder_berita"/>
                             <include
                                 layout="@layout/place_holder_berita"/>
-                            <include
-                                layout="@layout/place_holder_berita"/>
-                            <include
-                                layout="@layout/place_holder_berita"/>
                         </LinearLayout>
                     </com.facebook.shimmer.ShimmerFrameLayout>
                 <android.support.v7.widget.RecyclerView
@@ -66,5 +62,15 @@
             </android.support.v4.widget.NestedScrollView>
             </com.yalantis.phoenix.PullToRefreshView>
             <include layout="@layout/floating"/>
+            <TextView
+                android:id="@+id/text_gone"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:text="Data Kosong"
+                android:textStyle="italic"/>
         </FrameLayout>
 </LinearLayout>

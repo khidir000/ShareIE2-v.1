@@ -4,15 +4,23 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.ContentFrameLayout
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.example.zhack.share_ie.API.ApiClient
+import com.example.zhack.share_ie.model.Token_api
 import com.example.zhack.share_ie.model.User
+import com.example.zhack.share_ie.model.user_detail
+import com.google.android.gms.common.api.Api
+import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.login_username.*
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import org.jetbrains.anko.db.INTEGER
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,6 +28,7 @@ import retrofit2.Response
 class Login : AppCompatActivity() {
     var username: String? = null
     var password: String? = null
+    var APIToken:String? = null
     var session:SessionManagment?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,17 +45,13 @@ class Login : AppCompatActivity() {
         }
     }
     fun get_login(){
-        val httpClient = OkHttpClient().newBuilder()
-        val interceptor = Interceptor { chain ->
-            val request = chain?.request()?.newBuilder()?.header("Client-Service","frontend-client")?.header("Auth-Key","simplerestapi")?.build()
-            chain?.proceed(request)
-        }
-        httpClient.networkInterceptors().add(interceptor)
 
         username = et_username.text.toString()
         password = et_password.text.toString()
+        APIToken = FirebaseInstanceId.getInstance().token
         val api = ApiClient.create()
-        val getApi = api.getUser(username!!, password!!)
+        Log.d("pesan",APIToken.toString())
+        val getApi = api.getUser(username!!, password!!, Token_api(APIToken))
         getApi.enqueue(object : Callback<User> {
             override fun onFailure(call: Call<User>, t: Throwable) {
                 Toast.makeText(this@Login,t.message,Toast.LENGTH_LONG).show()
@@ -56,8 +61,10 @@ class Login : AppCompatActivity() {
                 if (response.isSuccessful) {
                     if(response.body()!!.status.equals(200))
                     {
-                        val token = response.body()!!.token
-                        val id = response.body()!!.id
+                        var token = response.body()!!.token
+                        var id = response.body()!!.id
+
+                        Log.d("token", token)
 
                         session!!.createLoginSession(id,token)
 
@@ -77,6 +84,25 @@ class Login : AppCompatActivity() {
             }
 
         })
+    }
+
+    override fun onBackPressed() {
+        val dialog = AlertDialog.Builder(this)
+        dialog.setTitle("Keluar")
+        dialog.setMessage("Yakin Ingin Keluar ?")
+        dialog.setPositiveButton("YA"){dialog, which->
+            val intent = Intent(applicationContext,Login::class.java)
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent.putExtra("EXIT",true)
+            startActivity(intent)
+            finishAffinity()
+        }
+        dialog.setNegativeButton("TIDAK"){dialog,which->
+            dialog.cancel()
+        }
+        dialog.show()
     }
 
 }

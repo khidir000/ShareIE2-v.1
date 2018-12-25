@@ -65,7 +65,7 @@
         android:id="@+id/user_seminar"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/kediri"
+        android:src="@mipmap/ic_launcher"
         android:layout_centerHorizontal="true"
         android:elevation="4dp"/>
 </RelativeLayout>

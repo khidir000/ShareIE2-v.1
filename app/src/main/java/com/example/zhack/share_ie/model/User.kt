@@ -11,5 +11,7 @@ data class User (
     @SerializedName("id")
     var id:String?=null,
     @SerializedName("token")
-    var token:String? =null
+    var token:String? =null,
+    @SerializedName("api_key")
+    var api_key:String? =null
     )

@@ -1,7 +1,13 @@
 package com.example.zhack.share_ie.berita
 
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.preference.PreferenceManager
+import android.support.v4.app.ActivityCompat.finishAffinity
 import android.support.v4.app.Fragment
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -10,16 +16,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.zhack.share_ie.API.*
+import com.example.zhack.share_ie.Login
 import com.example.zhack.share_ie.R
+import com.example.zhack.share_ie.SessionManagment
+import com.example.zhack.share_ie.UI.create_status
+import com.example.zhack.share_ie.komentar.Komentar
 import com.example.zhack.share_ie.komentar.adapterKomentar
 import com.example.zhack.share_ie.model.DataBerita
 import com.example.zhack.share_ie.model.DataKomentar
+import com.example.zhack.share_ie.model.status
 import com.yalantis.phoenix.PullToRefreshView
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.berita.*
+import kotlinx.android.synthetic.main.design_bottom_sheet_dialog.*
+import kotlinx.android.synthetic.main.floating.*
+import kotlinx.android.synthetic.main.tampilan_berita.view.*
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import org.jetbrains.anko.AlertBuilder
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -31,17 +46,15 @@ class control_berita : Fragment(), AdapterRv.Listener {
     public var mListKomentar:ArrayList<DataKomentar>?=null
     private var madapter: AdapterRv? = null
     public var adapter:adapterKomentar? = null
+    var sessionManagment:SessionManagment? = null
     private lateinit var pullToRefreshView: PullToRefreshView
 
     override fun onItemClick(view:View) {
-        view.setOnClickListener {
-            Toast.makeText(context,it.berita.toString(), Toast.LENGTH_LONG)
+        view.komentar.setOnClickListener {
+            val komentar = Komentar()
+            komentar.show(fragmentManager?.beginTransaction(),komentar.tag)
+
         }
-//        view.komentar.setOnClickListener {
-//            val komentar = Komentar()
-//            komentar.show(fragmentManager?.beginTransaction(),komentar.tag)
-//
-//        }
     }
 
     override fun onResume() {
@@ -58,20 +71,27 @@ class control_berita : Fragment(), AdapterRv.Listener {
                                        container: ViewGroup?,
                                        savedInstanState: Bundle?) = inflater.inflate(R.layout.berita,container,false)
          override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+             sessionManagment = SessionManagment(context)
+             sessionManagment!!.checkLogin()
              super.onViewCreated(view, savedInstanceState)
              mCompositeDisposable = CompositeDisposable()
-             initRecyclerView()
-             callWebService()
-             offset(0)
-             pull_refresh.setOnRefreshListener{
-                 pull_refresh.postDelayed(Runnable {
-                     showList()
-                     callWebService()
-                     shimmer_layout.visibility = View.VISIBLE
-                     shimmer.startShimmerAnimation()
-                 },2000)
-             }
+                 initRecyclerView()
+                 callWebService()
+                 offset(0)
+                 pull_refresh.setOnRefreshListener {
+                     pull_refresh.postDelayed(Runnable {
+                             showList()
+                             callWebService()
+                         text_gone.visibility = View.INVISIBLE
+                             shimmer_layout.visibility = View.VISIBLE
+                             shimmer.startShimmerAnimation()
+                     }, 2000)
+                 }
 //             fungsiClick()
+             upload_berita.setOnClickListener{
+                 val inn = Intent(context,create_status::class.java)
+                 startActivity(inn)
+             }
          }
 
     private fun offset(vertical:Int){
@@ -82,39 +102,44 @@ class control_berita : Fragment(), AdapterRv.Listener {
         }
     }
     private fun callWebService(){
-        val httpClient = OkHttpClient().newBuilder()
-        val interceptor = Interceptor { chain ->
-            val request = chain?.request()?.newBuilder()?.header("Client-Service","frontend-client")?.header("Auth-Key","simplerestapi")?.build()
-            chain?.proceed(request)
-        }
-        httpClient.networkInterceptors().add(interceptor)
+
         val retrofit = ApiClient.create()
-        val panggil = retrofit.getDetail("1","$1$.WTaRTC4"+"$"+"h1gvoffq..oHft1eslTeS1")
-        panggil.enqueue(object :Callback<List<DataBerita>>{
-            override fun onFailure(call: Call<List<DataBerita>>, t: Throwable) {
+        val panggil = retrofit.getDetail(sessionManagment!!.UserId(),sessionManagment!!.UserToken())
+        panggil.enqueue(object :Callback<status>{
+            override fun onFailure(call: Call<status>, t: Throwable) {
 //                    Toast.makeText(this@Login,t.toString(),Toast.LENGTH_LONG).show()
                 Log.e("pesan",t.toString())
             }
-            override fun onResponse(call: Call<List<DataBerita>>, response: Response<List<DataBerita>>) {
+            override fun onResponse(call: Call<status>, response: Response<status>) {
                 if (response.isSuccessful) {
-                    val datum = response.body()
-                    var list:List<DataBerita> = response.body()!!
-                    mAndroidList = ArrayList(list)
+                    val datum = response.body()!!.detail
+                    if (response.body()!!.status!!.equals(200)) {
 
-                    datum?.map {
-//                        Log.d("pesan","datanya ${it.komentar[0].isi_komentar}")
-//                        var list_data:List<DataKomentar> = listOf(it.komentar[0])
-//                        mListKomentar = ArrayList(list_data)
-                        //Log.d("pesan", ""+ mListKomentar)
+                        var list:List<DataBerita> = response.body()!!.detail
+                        mAndroidList = ArrayList(list)
+                        madapter = AdapterRv(mAndroidList!!, this@control_berita)
+                        datum.map {
+
+                        }
+                        if(mAndroidList!!.count() >0){
+                            text_gone.visibility = View.INVISIBLE
+                            rv.adapter = madapter
+                            rv.visibility = View.VISIBLE
+                            shimmer.stopShimmerAnimation()
+                            shimmer_layout.visibility = View.INVISIBLE
+                        }else{
+                            text_gone.visibility = View.VISIBLE
+                            shimmer.stopShimmerAnimation()
+                            shimmer_layout.visibility = View.INVISIBLE
+                        }
+                    }else{
+                        sessionManagment!!.logoutUser()
+                        Log.e("pesan",response.message())
                     }
-                    madapter = AdapterRv(mAndroidList!!, this@control_berita)
-                    rv.adapter = madapter
-                    rv.visibility = View.VISIBLE
-                    shimmer.stopShimmerAnimation()
-                    shimmer_layout.visibility = View.INVISIBLE
-                }else{
-
+                    }else{
+                    sessionManagment!!.logoutUser()
                 }
+
                 // copyright.setText(nil)
             }
         })
@@ -133,7 +158,6 @@ class control_berita : Fragment(), AdapterRv.Listener {
         madapter?.notifyDataSetChanged()
         pull_refresh.setRefreshing(false)
     }
-    
 
 //    fun loadData(){
 //        val cacheSize = 5*1024*1024
