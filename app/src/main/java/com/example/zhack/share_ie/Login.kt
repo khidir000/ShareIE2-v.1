@@ -16,6 +16,8 @@ import com.example.zhack.share_ie.model.User
 import com.example.zhack.share_ie.model.user_detail
 import com.google.android.gms.common.api.Api
 import com.google.firebase.iid.FirebaseInstanceId
+import com.yarolegovich.lovelydialog.LovelyChoiceDialog
+import com.yarolegovich.lovelydialog.LovelyProgressDialog
 import kotlinx.android.synthetic.main.login_username.*
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -30,10 +32,12 @@ class Login : AppCompatActivity() {
     var password: String? = null
     var APIToken:String? = null
     var session:SessionManagment?=null
+    var loadingdialog:LovelyProgressDialog?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_username)
         session = SessionManagment(this)
+        loadingdialog = LovelyProgressDialog(this).setCancelable(false)
         if(intent.getBooleanExtra("EXIT",false)){
             finish()
             return
@@ -49,6 +53,12 @@ class Login : AppCompatActivity() {
         username = et_username.text.toString()
         password = et_password.text.toString()
         APIToken = FirebaseInstanceId.getInstance().token
+
+        loadingdialog!!.setIcon(R.mipmap.ic_launcher)
+                .setTitle("Login..")
+                .setTopColorRes(R.color.colorPrimary)
+                .show()
+
         val api = ApiClient.create()
         Log.d("pesan",APIToken.toString())
         val getApi = api.getUser(username!!, password!!, Token_api(APIToken))
@@ -59,6 +69,7 @@ class Login : AppCompatActivity() {
 
             override fun onResponse(call: Call<User>, response: Response<User>) {
                 if (response.isSuccessful) {
+                    loadingdialog!!.dismiss()
                     if(response.body()!!.status.equals(200))
                     {
                         var token = response.body()!!.token

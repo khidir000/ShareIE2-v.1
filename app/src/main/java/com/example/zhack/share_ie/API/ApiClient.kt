@@ -11,6 +11,7 @@ import retrofit2.http.*
 
 interface ApiClient {
 
+    //berita-----------------------------
     @Headers(
 
             "Accept:application/json",
@@ -36,7 +37,40 @@ interface ApiClient {
                                @Body staus:status_created)
             : Call<status>
 
+    //END---------------------------------
 
+
+    //SEMINAR--------------------------------
+
+
+    @Headers(
+
+            "Accept:application/json",
+            "Content-Type: application/json",
+            "Client-Service:frontend-client",
+            "Auth-Key:simplerestapi"
+    )
+    @GET("seminar/")
+    abstract fun getSeminarAll(@Header("User-Id")UserId:String?,
+                            @Header("Authorization")Auth:String?)
+            : Call<status_seminar>
+
+
+    @Headers(
+
+            "Accept:application/json",
+            "Content-Type: application/json",
+            "Client-Service:frontend-client",
+            "Auth-Key:simplerestapi"
+    )
+    @GET("seminar/{jenis}")
+    abstract fun getSeminar(@Header("User-Id")UserId:String?,
+                               @Header("Authorization")Auth:String?,
+                            @Path("jenis")jenis:String?)
+            : Call<status_seminar>
+
+    //END------------------------------------
+    //USER-------------------------------
     @Headers(
 
             "Accept:application/json",
@@ -61,6 +95,8 @@ interface ApiClient {
                            @Header("Authorization")Auth:String?,
                                @Path("id")id:Int?)
             : Call<status_user_detail>
+
+    //END--------------------------------------------------------
 
     companion object {
         val BASE_URL = "https://elennovation.com/khidir/index.php/"

@@ -3,17 +3,18 @@ package com.example.zhack.share_ie.berita
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.media.tv.TvContract
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v4.app.ActivityCompat.finishAffinity
 import android.support.v4.app.Fragment
+import android.support.v4.view.MenuItemCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.SearchView
 import android.widget.Toast
 import com.example.zhack.share_ie.API.*
 import com.example.zhack.share_ie.Login
@@ -25,8 +26,13 @@ import com.example.zhack.share_ie.komentar.adapterKomentar
 import com.example.zhack.share_ie.model.DataBerita
 import com.example.zhack.share_ie.model.DataKomentar
 import com.example.zhack.share_ie.model.status
+import com.example.zhack.share_ie.model.status_user_detail
+import com.lapism.searchview.Search
+import com.lapism.searchview.widget.SearchBar
+import com.squareup.picasso.Picasso
 import com.yalantis.phoenix.PullToRefreshView
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.berita.*
 import kotlinx.android.synthetic.main.design_bottom_sheet_dialog.*
@@ -35,6 +41,9 @@ import kotlinx.android.synthetic.main.tampilan_berita.view.*
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import org.jetbrains.anko.AlertBuilder
+import org.jetbrains.anko.actionMenuView
+import org.jetbrains.anko.support.v4.find
+import org.jetbrains.anko.view
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -57,10 +66,10 @@ class control_berita : Fragment(), AdapterRv.Listener {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        shimmer.startShimmerAnimation()
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        shimmer.startShimmerAnimation()
+//    }
 
     override fun onPause() {
         super.onPause()
@@ -75,8 +84,11 @@ class control_berita : Fragment(), AdapterRv.Listener {
              sessionManagment!!.checkLogin()
              super.onViewCreated(view, savedInstanceState)
              mCompositeDisposable = CompositeDisposable()
+             shimmer.startShimmerAnimation()
                  initRecyclerView()
                  callWebService()
+             search()
+             search_bar.setLogoIcon(R.drawable.search)
                  offset(0)
                  pull_refresh.setOnRefreshListener {
                      pull_refresh.postDelayed(Runnable {
@@ -114,6 +126,26 @@ class control_berita : Fragment(), AdapterRv.Listener {
                 if (response.isSuccessful) {
                     val datum = response.body()!!.detail
                     if (response.body()!!.status!!.equals(200)) {
+
+                        var getUserDetail = retrofit.getUserDetail(sessionManagment!!.UserId(),sessionManagment!!.UserToken(), sessionManagment!!.UserId().toInt())
+                        getUserDetail.enqueue(object : Callback<status_user_detail> {
+                            override fun onFailure(call: Call<status_user_detail>, t: Throwable) {
+
+                            }
+
+                            override fun onResponse(call: Call<status_user_detail>, response: Response<status_user_detail>) {
+                                if (response.isSuccessful) {
+                                    var res = response.body()!!.detail
+                                    res.map {
+                                            sessionManagment!!.createUserDetail(it.username, it.name, it.foto)
+                                            Log.d("cek_error", it.foto)
+                                    }
+                                }else{
+                                    Log.d("cek_error",response.body()!!.message)
+                                }
+                            }
+
+                        })
 
                         var list:List<DataBerita> = response.body()!!.detail
                         mAndroidList = ArrayList(list)
@@ -157,6 +189,21 @@ class control_berita : Fragment(), AdapterRv.Listener {
         mAndroidList?.addAll(mAndroidList!!)
         madapter?.notifyDataSetChanged()
         pull_refresh.setRefreshing(false)
+    }
+
+
+    private fun search(){
+        search_bar.setOnQueryTextListener(object : Search.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: CharSequence?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: CharSequence?) {
+                Log.d("searchbar",newText.toString())
+                madapter!!.filter.filter(newText)
+            }
+
+        })
     }
 
 //    fun loadData(){

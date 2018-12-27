@@ -26,4 +26,6 @@
     <string name="pref_name">com.example.zhack.preference_name</string>
     <string name="pref_foto">com.example.zhack.preference_foto</string>
     <string name="pref_username">com.example.zhack.preference_username</string>
+
+    <string name="api_key">AAAAFfief2M:APA91bFFujct8_7URNNPpktJ6TVQ68kgQmJfBoxEFxBdHxgYkNoXs2HY0vA5v1M6zq0iLlkVM3QRpocdoPWRG8gboIjhWJEcYzGmvjSgQ0v3RU-D9SIoHeoimp1IobkdccxZVfcUFpVc</string>
 </resources>

@@ -28,9 +28,7 @@ public class Splash extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         ImageView logo = findViewById(R.id.logo);
-        Animation animasi = AnimationUtils.loadAnimation(this,R.anim.buram);
         if (isWorkingInternetPersent()) {
-            logo.startAnimation(animasi);
             splash();
         } else {
             showAlertDialog(Splash.this, "Uppss... Koneksi Internet",
@@ -42,7 +40,7 @@ public class Splash extends Activity {
         Thread timerTread = new Thread() {
             public void run() {
                 try {
-                    sleep(2500);
+                    sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
@@ -80,6 +78,8 @@ public class Splash extends Activity {
         // Setting Dialog Message
         alertDialog.setMessage(message);
 
+        alertDialog.setCancelable(false);
+
         // Setting alert dialog icon
 //         alertDialog.setIcon((status) ? R.mipmap.ic_launcher : R.mipmap.ic_launcher);
 
@@ -99,4 +99,5 @@ public class Splash extends Activity {
     public void onBackPressed() {
 
     }
+
 }

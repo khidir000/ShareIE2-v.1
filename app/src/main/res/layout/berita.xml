@@ -14,7 +14,6 @@
         android:theme="@style/AppTheme.AppBarOverlay">
        <com.lapism.searchview.widget.SearchBar
            android:id="@+id/search_bar"
-           app:search_logo="hamburger_arrow"
            android:layout_width="match_parent"
            android:layout_height="match_parent"/>
     </android.support.design.widget.AppBarLayout>
@@ -53,11 +52,16 @@
                                 layout="@layout/place_holder_berita"/>
                         </LinearLayout>
                     </com.facebook.shimmer.ShimmerFrameLayout>
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
                 <android.support.v7.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/rv"
+                    android:scrollbars="vertical"
                     android:visibility="gone"/>
+                    </ScrollView>
                 </RelativeLayout>
             </android.support.v4.widget.NestedScrollView>
             </com.yalantis.phoenix.PullToRefreshView>

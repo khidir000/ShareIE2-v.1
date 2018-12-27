@@ -9,13 +9,17 @@ import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.View
 import com.example.zhack.share_ie.API.ApiClient
+import com.example.zhack.share_ie.UI.seminar_list
 import com.example.zhack.share_ie.berita.control_berita
 import com.example.zhack.share_ie.model.status
 import com.example.zhack.share_ie.model.status_user_detail
 import com.example.zhack.share_ie.model.user_detail
+import com.squareup.picasso.Picasso
+import com.yarolegovich.lovelydialog.LovelyInfoDialog
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.berita.*
 import org.jetbrains.anko.appcompat.v7.alertDialogLayout
+import org.jetbrains.anko.image
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,27 +34,35 @@ class MainActivity : AppCompatActivity() {
         session = SessionManagment(applicationContext)
         session!!.checkLogin()
 
+        var foto = session!!.UserFoto()
+        if(foto!=null){
+            Picasso.get().load(foto).into(user_menu)
+        }else {
+            var retrof = ApiClient.create()
+            var getUserDetail = retrof.getUserDetail(session!!.UserId(), session!!.UserToken(), session!!.UserId().toInt())
+            getUserDetail.enqueue(object : Callback<status_user_detail> {
+                override fun onFailure(call: Call<status_user_detail>, t: Throwable) {
+
+                }
+
+                override fun onResponse(call: Call<status_user_detail>, response: Response<status_user_detail>) {
+                    if (response.isSuccessful) {
+                        var res = response.body()!!.detail
+                        res.map {
+                            session!!.createUserDetail(it.username, it.name, it.foto)
+                            Log.d("cek_error", it.foto)
+                            Picasso.get().load(it.foto).into(user_menu)
+                        }
+                    } else {
+                        Log.d("cek_error", response.body()!!.message)
+                    }
+                }
+
+            })
+        }
+
 
         var apiclient = ApiClient.create()
-        var getUserDetail = apiclient.getUserDetail(session!!.UserId(),session!!.UserToken(), session!!.UserId().toInt())
-        getUserDetail.enqueue(object : Callback<status_user_detail> {
-            override fun onFailure(call: Call<status_user_detail>, t: Throwable) {
-
-            }
-
-            override fun onResponse(call: Call<status_user_detail>, response: Response<status_user_detail>) {
-                if (response.isSuccessful) {
-                    var res = response.body()!!.detail
-                    res.map {
-                        session!!.createUserDetail(it.username,it.name,it.foto)
-                        Log.d("cek_error",it.foto)
-                    }
-                }else{
-                    Log.d("cek_error",response.body()!!.message)
-                }
-            }
-
-        })
 
         Log.d("cek_error",session!!.UserName()+session!!.UserFoto())
 
@@ -66,10 +78,22 @@ class MainActivity : AppCompatActivity() {
                     if (response!!.status!!.equals(200)){
                             initFragment(control_berita())
                             berita.setColorFilter(R.color.colorPrimaryDark)
+                            berita.isEnabled = false
                             berita.setOnClickListener {
                                 initFragment(control_berita())
                                 berita.setColorFilter(R.color.colorPrimaryDark)
+                                berita.isEnabled = false
+                                seminar.isEnabled = true
                                 seminar.clearColorFilter()
+                                jadwal.clearColorFilter()
+                                laporan.clearColorFilter()
+                            }
+                            seminar.setOnClickListener {
+                                initFragment(seminar_list())
+                                seminar.setColorFilter(R.color.colorPrimaryDark)
+                                berita.clearColorFilter()
+                                berita.isEnabled = true
+                                seminar.isEnabled = false
                                 jadwal.clearColorFilter()
                                 laporan.clearColorFilter()
                             }
@@ -91,7 +115,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+
         val dialog = AlertDialog.Builder(this)
+
         dialog.setTitle("Keluar")
         dialog.setMessage("Yakin Ingin Keluar ?")
         dialog.setPositiveButton("YA"){dialog, which->
@@ -107,6 +133,7 @@ class MainActivity : AppCompatActivity() {
             dialog.cancel()
         }
         dialog.show()
+
     }
 
 }

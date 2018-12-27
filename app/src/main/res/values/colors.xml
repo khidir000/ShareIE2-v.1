@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#00BFFF</color>
-    <color name="colorPrimaryDark">#00BFFF</color>
+    <color name="colorPrimaryDark">#00abe5</color>
     <color name="colorAccent">#A5B0B7</color>
     <color name="background">#00BFFF</color>
     <color name="background_shimmer">#dddddd</color>
     <color name="garis">#FFFFFF</color>
     <color name="hitam">#000000</color>
+    <color name="hijau_terang">#2fa881</color>
 </resources>
