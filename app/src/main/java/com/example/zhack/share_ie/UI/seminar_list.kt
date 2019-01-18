@@ -1,10 +1,11 @@
 package com.example.zhack.share_ie.UI
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.app.ActionBar
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,23 +13,15 @@ import android.widget.ImageView
 import com.example.zhack.share_ie.API.ApiClient
 import com.example.zhack.share_ie.R
 import com.example.zhack.share_ie.SessionManagment
-import com.example.zhack.share_ie.berita.AdapterRv
-import com.example.zhack.share_ie.model.DataBerita
+import com.example.zhack.share_ie.seminar_detail.seminar_detail
 import com.example.zhack.share_ie.model.seminar
-import com.example.zhack.share_ie.model.status
 import com.example.zhack.share_ie.model.status_seminar
 import com.squareup.picasso.Picasso
-import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.android.synthetic.main.berita.*
-import kotlinx.android.synthetic.main.buat_status.*
-import kotlinx.android.synthetic.main.design_bottom_sheet_dialog.*
 import kotlinx.android.synthetic.main.list_seminar.*
 import kotlinx.android.synthetic.main.list_seminar_detail.view.*
-import kotlinx.android.synthetic.main.tampilan_berita.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import kotlin.coroutines.experimental.coroutineContext
 
 class seminar_list:Fragment(){
 
@@ -46,6 +39,24 @@ class seminar_list:Fragment(){
         recycler_list()
         initRecyclerView()
 
+        proposal_list.setOnClickListener {
+            Log.d("tombol_proposal","error")
+            var intent = Intent(context, seminar_detail::class.java)
+            intent.putExtra("key","proposal")
+            context!!.startActivity(intent)
+        }
+
+        hasil_list.setOnClickListener {
+            var intent = Intent(context, seminar_detail::class.java)
+            intent.putExtra("key","hasil")
+            context!!.startActivity(intent)
+        }
+
+        ujian_list.setOnClickListener {
+            var intent = Intent(context, seminar_detail::class.java)
+            intent.putExtra("key","ujian")
+            context!!.startActivity(intent)
+        }
     }
 
     private fun recycler_list(){
@@ -72,10 +83,14 @@ class seminar_list:Fragment(){
 
                                 override fun onResponse(call: Call<status_seminar>, response: Response<status_seminar>) {
                                     if (response.isSuccessful) {
-                                        var list:List<seminar> = response.body()!!.detail
-                                        mAndroidList = ArrayList(list)
-                                        madapter = AdapterRv(mAndroidList!!)
-                                        proposal.adapter = madapter
+                                        try {
+                                            var list:List<seminar> = response.body()!!.detail
+                                            mAndroidList = ArrayList(list)
+                                            madapter = AdapterRv(mAndroidList!!)
+                                            proposal.adapter = madapter
+                                        }catch (e:Exception){
+                                            e.message
+                                        }
                                     }
                                 }
 
@@ -90,10 +105,14 @@ class seminar_list:Fragment(){
 
                                 override fun onResponse(call: Call<status_seminar>, response: Response<status_seminar>) {
                                     if (response.isSuccessful) {
-                                        var list:List<seminar> = response.body()!!.detail
-                                        mAndroidList = ArrayList(list)
-                                        madapter = AdapterRv(mAndroidList!!)
-                                        hasil.adapter = madapter
+                                        try {
+                                            var list:List<seminar> = response.body()!!.detail
+                                            mAndroidList = ArrayList(list)
+                                            madapter = AdapterRv(mAndroidList!!)
+                                            hasil.adapter = madapter
+                                        }catch (e:Exception){
+                                            e.message
+                                        }
                                     }
                                 }
 
@@ -108,10 +127,15 @@ class seminar_list:Fragment(){
 
                                 override fun onResponse(call: Call<status_seminar>, response: Response<status_seminar>) {
                                     if (response.isSuccessful) {
-                                        var list:List<seminar> = response.body()!!.detail
-                                        mAndroidList = ArrayList(list)
-                                        madapter = AdapterRv(mAndroidList!!)
-                                        ujian.adapter = madapter
+                                        try {
+                                            var list:List<seminar> = response.body()!!.detail
+                                            mAndroidList = ArrayList(list)
+                                            madapter = AdapterRv(mAndroidList!!)
+                                            ujian.adapter = madapter
+                                        }catch (e:Exception){
+                                            e.message
+                                        }
+
                                     }
                                 }
 

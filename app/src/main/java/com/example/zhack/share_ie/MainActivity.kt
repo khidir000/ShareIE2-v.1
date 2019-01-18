@@ -14,6 +14,8 @@ import com.example.zhack.share_ie.berita.control_berita
 import com.example.zhack.share_ie.model.status
 import com.example.zhack.share_ie.model.status_user_detail
 import com.example.zhack.share_ie.model.user_detail
+import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.messaging.FirebaseMessaging
 import com.squareup.picasso.Picasso
 import com.yarolegovich.lovelydialog.LovelyInfoDialog
 import kotlinx.android.synthetic.main.activity_main.*

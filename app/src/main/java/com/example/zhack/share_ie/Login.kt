@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.example.zhack.share_ie.API.ApiClient
+import com.example.zhack.share_ie.firebase.MyFirebaseInstanceIDService
 import com.example.zhack.share_ie.model.Token_api
 import com.example.zhack.share_ie.model.User
 import com.example.zhack.share_ie.model.user_detail
@@ -77,7 +78,7 @@ class Login : AppCompatActivity() {
 
                         Log.d("token", token)
 
-                        session!!.createLoginSession(id,token)
+                        session!!.createLoginSession(id,token,password)
 
                         val intent = Intent(this@Login,MainActivity::class.java)
                         startActivity(intent)

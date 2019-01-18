@@ -98,6 +98,20 @@ interface ApiClient {
 
     //END--------------------------------------------------------
 
+    //Notification
+    @Headers(
+
+            "Accept:application/json",
+            "Content-Type: application/json",
+            "Client-Service:frontend-client",
+            "Auth-Key:simplerestapi"
+    )
+    @POST("sendAllDevice")
+    abstract fun getNotiftoAll(@Query("title")title:String,
+                               @Query("message")pesan:String):Call<notif_status>
+    //end notif
+
+
     companion object {
         val BASE_URL = "https://elennovation.com/khidir/index.php/"
         fun create(): ApiClient {

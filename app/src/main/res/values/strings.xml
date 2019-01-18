@@ -15,6 +15,7 @@
     <string name="repeat_password">Repeat Password</string>
     <string name="next">NEXT</string>
     <string name="register">REGISTER</string>
+    <string name="detail">Lihat Detail</string>
 
     <string name="hint_username">Enter a new username</string>
     <string name="hint_email_reset">Enter your email</string>
@@ -27,5 +28,5 @@
     <string name="pref_foto">com.example.zhack.preference_foto</string>
     <string name="pref_username">com.example.zhack.preference_username</string>
 
-    <string name="api_key">AAAAFfief2M:APA91bFFujct8_7URNNPpktJ6TVQ68kgQmJfBoxEFxBdHxgYkNoXs2HY0vA5v1M6zq0iLlkVM3QRpocdoPWRG8gboIjhWJEcYzGmvjSgQ0v3RU-D9SIoHeoimp1IobkdccxZVfcUFpVc</string>
+    <string name="data_seminar">com.example.zhack.seminar</string>
 </resources>

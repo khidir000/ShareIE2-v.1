@@ -9,6 +9,7 @@ import java.util.HashMap;
 public class SessionManagment {
 
     SharedPreferences pref;
+    private static SessionManagment mInstance;
     SharedPreferences.Editor editor;
     Context context;
 
@@ -20,10 +21,14 @@ public class SessionManagment {
         editor = pref.edit();
     }
 
-    public void createLoginSession(String id, String token){
+    public void saveToken(String token){
+        editor.putString(context.getString(R.string.pref_token),token);
+    }
+    public void createLoginSession(String id, String token, String pass){
         editor.putBoolean(context.getString(R.string.pref_login_status),true);
         editor.putString(context.getString(R.string.pref_id),id);
         editor.putString(context.getString(R.string.pref_token),token);
+        editor.putString("pass",pass);
 
         editor.commit();
     }
@@ -54,6 +59,13 @@ public class SessionManagment {
         }
     }
 
+    public static synchronized SessionManagment getInstance(Context context) {
+        if (mInstance == null) {
+            mInstance = new SessionManagment(context);
+        }
+        return mInstance;
+    }
+
     public HashMap<String,String> getUser(){
         HashMap<String,String> user = new HashMap<String, String>();
         user.put(context.getString(R.string.pref_id),pref.getString(context.getString(R.string.pref_id),null));
@@ -61,6 +73,7 @@ public class SessionManagment {
         user.put(context.getString(R.string.pref_username),pref.getString(context.getString(R.string.pref_username),null));
         user.put(context.getString(R.string.pref_name),pref.getString(context.getString(R.string.pref_name),null));
         user.put(context.getString(R.string.pref_foto),pref.getString(context.getString(R.string.pref_foto),null));
+        user.put("pass",pref.getString("pass",null));
         return user;
     }
 
@@ -85,4 +98,5 @@ public class SessionManagment {
     public String UserUsername(){return  getUser().get(context.getString(R.string.pref_username));}
     public String UserName(){return  getUser().get(context.getString(R.string.pref_name));}
     public String UserFoto(){return getUser().get(context.getString(R.string.pref_foto));}
+    public String Password(){return getUser().get("pass");}
 }

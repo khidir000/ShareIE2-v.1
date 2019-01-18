@@ -84,21 +84,27 @@ class control_berita : Fragment(), AdapterRv.Listener {
              sessionManagment!!.checkLogin()
              super.onViewCreated(view, savedInstanceState)
              mCompositeDisposable = CompositeDisposable()
-             shimmer.startShimmerAnimation()
+
+             try{
+                 shimmer.startShimmerAnimation()
                  initRecyclerView()
                  callWebService()
-             search()
-             search_bar.setLogoIcon(R.drawable.search)
+                 search()
+                 search_bar.setLogoIcon(R.drawable.search)
                  offset(0)
                  pull_refresh.setOnRefreshListener {
                      pull_refresh.postDelayed(Runnable {
-                             showList()
-                             callWebService()
+                         showList()
+                         callWebService()
                          text_gone.visibility = View.INVISIBLE
-                             shimmer_layout.visibility = View.VISIBLE
-                             shimmer.startShimmerAnimation()
+                         shimmer_layout.visibility = View.VISIBLE
+                         shimmer.startShimmerAnimation()
                      }, 2000)
                  }
+
+             }catch (e:Exception){
+                 e.message
+             }
 //             fungsiClick()
              upload_berita.setOnClickListener{
                  val inn = Intent(context,create_status::class.java)
@@ -154,15 +160,23 @@ class control_berita : Fragment(), AdapterRv.Listener {
 
                         }
                         if(mAndroidList!!.count() >0){
-                            text_gone.visibility = View.INVISIBLE
-                            rv.adapter = madapter
-                            rv.visibility = View.VISIBLE
-                            shimmer.stopShimmerAnimation()
-                            shimmer_layout.visibility = View.INVISIBLE
+                            try{
+                                text_gone.visibility = View.INVISIBLE
+                                rv.adapter = madapter
+                                rv.visibility = View.VISIBLE
+                                shimmer.stopShimmerAnimation()
+                                shimmer_layout.visibility = View.INVISIBLE
+                            }catch (e:Exception){
+                                e.message
+                            }
                         }else{
-                            text_gone.visibility = View.VISIBLE
-                            shimmer.stopShimmerAnimation()
-                            shimmer_layout.visibility = View.INVISIBLE
+                            try {
+                                text_gone.visibility = View.VISIBLE
+                                shimmer.stopShimmerAnimation()
+                                shimmer_layout.visibility = View.INVISIBLE
+                            }catch (e:Exception){
+                                e.message
+                            }
                         }
                     }else{
                         sessionManagment!!.logoutUser()

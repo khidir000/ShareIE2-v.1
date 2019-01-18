@@ -12,18 +12,21 @@ import com.example.zhack.share_ie.API.ApiClient
 import com.example.zhack.share_ie.MainActivity
 import com.example.zhack.share_ie.R
 import com.example.zhack.share_ie.SessionManagment
+import com.example.zhack.share_ie.model.notif_status
 import com.example.zhack.share_ie.model.status
 import com.example.zhack.share_ie.model.status_created
 import com.squareup.picasso.Picasso
 import com.yarolegovich.lovelydialog.LovelyProgressDialog
 import kotlinx.android.synthetic.main.buat_status.*
-import org.jetbrains.anko.sdk25.coroutines.onClick
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import okhttp3.OkHttpClient
+
 
 public class create_status:AppCompatActivity(){
     var loading:LovelyProgressDialog?=null
+    var mClient:OkHttpClient? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.buat_status)
@@ -66,6 +69,22 @@ public class create_status:AppCompatActivity(){
                             loading!!.dismiss()
                             val response = response.body()!!.status
                             if (response!!.equals(201)) {
+                                var notif = api.getNotiftoAll("Berita","$name membagikan informasi baru")
+                                notif.enqueue(object : Callback<notif_status>{
+                                    override fun onFailure(call: Call<notif_status>, t: Throwable) {
+                                        Log.d("notif_error",t.message!!.toString())
+                                    }
+
+                                    override fun onResponse(call: Call<notif_status>, response: Response<notif_status>) {
+                                        if (response.isSuccessful) {
+                                            val bodi = response.body()!!.message_id
+                                            Log.d("notif_sukses",bodi!!.toString())
+                                        }else{
+                                            Log.d("notif_sukses",response.message().toString())
+                                        }
+                                    }
+
+                                })
                                 val intent = Intent(this@create_status, MainActivity::class.java)
                                 startActivity(intent)
                             }
@@ -82,6 +101,5 @@ public class create_status:AppCompatActivity(){
 
             }
         }
-
 
     }
