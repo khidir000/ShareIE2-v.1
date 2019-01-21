@@ -9,13 +9,13 @@ import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.View
 import com.example.zhack.share_ie.API.ApiClient
+import com.example.zhack.share_ie.UI.profile_berita
 import com.example.zhack.share_ie.UI.seminar_list
 import com.example.zhack.share_ie.berita.control_berita
 import com.example.zhack.share_ie.model.status
 import com.example.zhack.share_ie.model.status_user_detail
 import com.example.zhack.share_ie.model.user_detail
-import com.google.firebase.iid.FirebaseInstanceId
-import com.google.firebase.messaging.FirebaseMessaging
+import com.example.zhack.share_ie.profile.profile_Ui
 import com.squareup.picasso.Picasso
 import com.yarolegovich.lovelydialog.LovelyInfoDialog
 import kotlinx.android.synthetic.main.activity_main.*
@@ -37,36 +37,9 @@ class MainActivity : AppCompatActivity() {
         session!!.checkLogin()
 
         var foto = session!!.UserFoto()
-        if(foto!=null){
-            Picasso.get().load(foto).into(user_menu)
-        }else {
-            var retrof = ApiClient.create()
-            var getUserDetail = retrof.getUserDetail(session!!.UserId(), session!!.UserToken(), session!!.UserId().toInt())
-            getUserDetail.enqueue(object : Callback<status_user_detail> {
-                override fun onFailure(call: Call<status_user_detail>, t: Throwable) {
-
-                }
-
-                override fun onResponse(call: Call<status_user_detail>, response: Response<status_user_detail>) {
-                    if (response.isSuccessful) {
-                        var res = response.body()!!.detail
-                        res.map {
-                            session!!.createUserDetail(it.username, it.name, it.foto)
-                            Log.d("cek_error", it.foto)
-                            Picasso.get().load(it.foto).into(user_menu)
-                        }
-                    } else {
-                        Log.d("cek_error", response.body()!!.message)
-                    }
-                }
-
-            })
-        }
-
+        Picasso.get().load(foto).into(user_menu)
 
         var apiclient = ApiClient.create()
-
-        Log.d("cek_error",session!!.UserName()+session!!.UserFoto())
 
         var retrofit = apiclient.getDetail(session!!.UserId(),session!!.UserToken())
         retrofit.enqueue(object : Callback<status> {
@@ -85,8 +58,10 @@ class MainActivity : AppCompatActivity() {
                                 initFragment(control_berita())
                                 berita.setColorFilter(R.color.colorPrimaryDark)
                                 berita.isEnabled = false
+                                user_menu.isEnabled = true
                                 seminar.isEnabled = true
                                 seminar.clearColorFilter()
+                                user_menu.alpha = 0.75F
                                 jadwal.clearColorFilter()
                                 laporan.clearColorFilter()
                             }
@@ -95,9 +70,23 @@ class MainActivity : AppCompatActivity() {
                                 seminar.setColorFilter(R.color.colorPrimaryDark)
                                 berita.clearColorFilter()
                                 berita.isEnabled = true
+                                user_menu.isEnabled = true
                                 seminar.isEnabled = false
+                                user_menu.alpha = 0.75F
                                 jadwal.clearColorFilter()
                                 laporan.clearColorFilter()
+                            }
+
+                            user_menu.setOnClickListener{
+                                initFragment(profile_Ui())
+                                berita.clearColorFilter()
+                                berita.isEnabled = true
+                                seminar.isEnabled = true
+                                user_menu.isEnabled = false
+                                jadwal.clearColorFilter()
+                                seminar.clearColorFilter()
+                                laporan.clearColorFilter()
+                                user_menu.alpha = 1F
                             }
                     }
                 }else{

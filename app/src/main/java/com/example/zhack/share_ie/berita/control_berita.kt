@@ -23,10 +23,7 @@ import com.example.zhack.share_ie.SessionManagment
 import com.example.zhack.share_ie.UI.create_status
 import com.example.zhack.share_ie.komentar.Komentar
 import com.example.zhack.share_ie.komentar.adapterKomentar
-import com.example.zhack.share_ie.model.DataBerita
-import com.example.zhack.share_ie.model.DataKomentar
-import com.example.zhack.share_ie.model.status
-import com.example.zhack.share_ie.model.status_user_detail
+import com.example.zhack.share_ie.model.*
 import com.lapism.searchview.Search
 import com.lapism.searchview.widget.SearchBar
 import com.squareup.picasso.Picasso
@@ -143,7 +140,23 @@ class control_berita : Fragment(), AdapterRv.Listener {
                                 if (response.isSuccessful) {
                                     var res = response.body()!!.detail
                                     res.map {
-                                            sessionManagment!!.createUserDetail(it.username, it.name, it.foto)
+//                                        val user = retrofit.getUserAll(it.user_id, sessionManagment!!.UserToken(), Integer.parseInt(sessionManagment!!.UserId()))
+//                                        Log.d("Main aktifitas", sessionManagment!!.UserToken())
+//                                        user.enqueue(object : Callback<user_detail>{
+//                                            override fun onFailure(call: Call<user_detail>, t: Throwable) {
+//
+//                                            }
+//
+//                                            override fun onResponse(call: Call<user_detail>, response: Response<user_detail>) {
+//                                                if (response.isSuccessful) {
+//                                                    Log.d("Main aktifitas", response.body()!!.username)
+//                                                    var bodi = response.body()
+//                                                    sessionManagment!!.createUserDetail(bodi!!.username, bodi!!.name, bodi!!.foto, bodi!!.email, bodi!!.no_hp)
+//                                                }
+//                                            }
+//
+//                                        })
+                                        sessionManagment!!.createUserDetail(it.username,it.name,it.foto, it.email, it.no_hp)
                                             Log.d("cek_error", it.foto)
                                     }
                                 }else{

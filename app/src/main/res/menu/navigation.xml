@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/berita"
+        android:id="@+id/berita_profile"
         android:icon="@drawable/berita"
         android:title="Berita" />
 
     <item
-        android:id="@+id/jadwal"
+        android:id="@+id/jadwal_profile"
         android:icon="@drawable/jadwal"
         android:title="Jadwal" />
 
     <item
-        android:id="@+id/person"
+        android:id="@+id/person_profile"
         android:icon="@drawable/person"
         android:title="Pribadi" />
 

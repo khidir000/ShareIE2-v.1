@@ -33,10 +33,12 @@ public class SessionManagment {
         editor.commit();
     }
 
-    public void createUserDetail(String username, String name, String foto){
+    public void createUserDetail(String username, String name, String foto, String email, String nomer){
         editor.putString(context.getString(R.string.pref_username),username);
         editor.putString(context.getString(R.string.pref_name),name);
         editor.putString(context.getString(R.string.pref_foto),foto);
+        editor.putString(context.getString(R.string.pref_email),email);
+        editor.putString(context.getString(R.string.pref_nomer),nomer);
         editor.commit();
     }
 
@@ -74,6 +76,8 @@ public class SessionManagment {
         user.put(context.getString(R.string.pref_name),pref.getString(context.getString(R.string.pref_name),null));
         user.put(context.getString(R.string.pref_foto),pref.getString(context.getString(R.string.pref_foto),null));
         user.put("pass",pref.getString("pass",null));
+        user.put(context.getString(R.string.pref_email),pref.getString(context.getString(R.string.pref_email),null));
+        user.put(context.getString(R.string.pref_nomer),pref.getString(context.getString(R.string.pref_nomer),null));
         return user;
     }
 
@@ -98,5 +102,7 @@ public class SessionManagment {
     public String UserUsername(){return  getUser().get(context.getString(R.string.pref_username));}
     public String UserName(){return  getUser().get(context.getString(R.string.pref_name));}
     public String UserFoto(){return getUser().get(context.getString(R.string.pref_foto));}
+    public String UserEmail(){return  getUser().get(context.getString(R.string.pref_email));}
+    public String UserNomer(){return getUser().get(context.getString(R.string.pref_nomer));}
     public String Password(){return getUser().get("pass");}
 }

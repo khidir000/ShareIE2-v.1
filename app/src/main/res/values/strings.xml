@@ -27,6 +27,8 @@
     <string name="pref_name">com.example.zhack.preference_name</string>
     <string name="pref_foto">com.example.zhack.preference_foto</string>
     <string name="pref_username">com.example.zhack.preference_username</string>
+    <string name="pref_email">com.example.zhack.preference_email</string>
+    <string name="pref_nomer">com.example.zhack.preference_nomer</string>
 
     <string name="data_seminar">com.example.zhack.seminar</string>
 </resources>

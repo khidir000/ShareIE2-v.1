@@ -73,6 +73,7 @@ class Login : AppCompatActivity() {
                     loadingdialog!!.dismiss()
                     if(response.body()!!.status.equals(200))
                     {
+
                         var token = response.body()!!.token
                         var id = response.body()!!.id
 

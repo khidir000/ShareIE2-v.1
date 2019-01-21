@@ -31,6 +31,20 @@ interface ApiClient {
             "Client-Service:frontend-client",
             "Auth-Key:simplerestapi"
     )
+    @GET("berita/spec/{id}")
+    abstract fun getBeritaDetail(@Header("User-Id")UserId:String?,
+                                 @Header("Authorization")Auth:String?,
+                                 @Path("id")id:Int)
+            :Call<status>
+
+
+    @Headers(
+
+            "Accept:application/json",
+            "Content-Type: application/json",
+            "Client-Service:frontend-client",
+            "Auth-Key:simplerestapi"
+    )
     @POST("berita/create")
     abstract fun create_status(@Header("User-Id")UserId:String?,
                                @Header("Authorization")Auth:String?,
@@ -111,6 +125,17 @@ interface ApiClient {
                                @Query("message")pesan:String):Call<notif_status>
     //end notif
 
+    @Headers(
+
+            "Accept:application/json",
+            "Content-Type: application/json",
+            "Client-Service:frontend-client",
+            "Auth-Key:simplerestapi"
+    )
+    @GET("users/detail/{id}")
+    abstract fun getUserAll(@Header("User-Id")UserId:String?,
+                         @Header("Authorization")Auth:String?,
+                         @Path("id")id:Int?) : Call<user_detail>
 
     companion object {
         val BASE_URL = "https://elennovation.com/khidir/index.php/"
