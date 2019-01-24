@@ -10,8 +10,13 @@ import android.widget.Filter
 import android.widget.Filterable
 import com.example.zhack.share_ie.model.DataBerita
 import com.example.zhack.share_ie.R
+import com.example.zhack.share_ie.komentar.Komentar
+import com.example.zhack.share_ie.komentar.adapterKomentar
+import com.example.zhack.share_ie.model.DataKomentar
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.komentar.*
+import kotlinx.android.synthetic.main.komentar.view.*
 import kotlinx.android.synthetic.main.tampilan_berita.view.*
 
 
@@ -28,7 +33,8 @@ class AdapterRv(private var dataList:ArrayList<DataBerita>
     }
 
     interface Listener{
-        fun onItemClick(view:View)
+        abstract fun onItemClick(view: View?, position: Int)
+        abstract fun onKomentar(view:View,position: Int)
     }
 
     override fun onBindViewHolder(holder: DataHolder, position: Int) {
@@ -88,8 +94,12 @@ class AdapterRv(private var dataList:ArrayList<DataBerita>
                 Picasso.get().load(android.foto).into(image)
             }
 
+            itemView.komentar.setOnClickListener {
+                listener.onKomentar(itemView,position)
+            }
 
-            itemView.setOnClickListener{listener.onItemClick(itemView)}
+            itemView.setOnClickListener{listener.onItemClick(itemView, position)}
         }
+
     }
 }

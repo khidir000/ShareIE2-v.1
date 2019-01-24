@@ -16,5 +16,8 @@ data class DataKomentar(
         var isi_komentar:String? = null,
 
         @SerializedName("berita_id")
-        var berita_id:String? = null
+        var berita_id:String? = null,
+
+        @SerializedName("create_komentar")
+        var create_komentar:String? = null
 )

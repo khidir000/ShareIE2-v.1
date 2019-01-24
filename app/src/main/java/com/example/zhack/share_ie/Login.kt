@@ -17,6 +17,7 @@ import com.example.zhack.share_ie.model.User
 import com.example.zhack.share_ie.model.user_detail
 import com.google.android.gms.common.api.Api
 import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.messaging.FirebaseMessaging
 import com.yarolegovich.lovelydialog.LovelyChoiceDialog
 import com.yarolegovich.lovelydialog.LovelyProgressDialog
 import kotlinx.android.synthetic.main.login_username.*
@@ -60,6 +61,13 @@ class Login : AppCompatActivity() {
                 .setTopColorRes(R.color.colorPrimary)
                 .show()
 
+        FirebaseMessaging.getInstance().subscribeToTopic("berita").addOnCompleteListener {
+            task -> var msg = "berhasil"
+            if(!task.isSuccessful){
+                msg = "gagal"
+            }
+            Log.d("firebase_topik", msg)
+        }
         val api = ApiClient.create()
         Log.d("pesan",APIToken.toString())
         val getApi = api.getUser(username!!, password!!, Token_api(APIToken))

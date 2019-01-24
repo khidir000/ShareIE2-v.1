@@ -6,11 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.zhack.share_ie.model.DataKomentar
 import com.example.zhack.share_ie.R
+import com.example.zhack.share_ie.berita.AdapterRv
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.komentar.view.*
 import kotlinx.android.synthetic.main.komentar_isi.view.*
 
-class adapterKomentar(val dataKomentar: ArrayList<DataKomentar>)
+class adapterKomentar(val dataKomentar: ArrayList<DataKomentar>?,private var listener: adapterKomentar.Listener)
     :RecyclerView.Adapter<adapterKomentar.KomentarHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): KomentarHolder {
         val view = LayoutInflater.from(parent.context)
@@ -18,23 +20,30 @@ class adapterKomentar(val dataKomentar: ArrayList<DataKomentar>)
         return KomentarHolder(view)
     }
 
+    interface Listener{
 
-    override fun getItemCount(): Int = dataKomentar.size
+        abstract fun onItemClick(view: View, position: Int)
+
+    }
+
+    override fun getItemCount(): Int = dataKomentar!!.size
 
     override fun onBindViewHolder(holder: KomentarHolder, position: Int) {
-        holder.onBind(dataKomentar[position])
+        holder.onBind(dataKomentar!![position], listener, position)
     }
 
     class KomentarHolder(view: View):RecyclerView.ViewHolder(view){
-        fun onBind(komentar: DataKomentar){
-            itemView.user_komen.text = komentar.name
+        fun onBind(komentar: DataKomentar, listener:Listener, position: Int){
+            itemView.user_komen.text = komentar.name+" (${komentar.username})"
             itemView.body_komen.text = komentar.isi_komentar
+            itemView.wkt_komen.text = komentar.create_komentar
             val image_komen:CircleImageView = itemView.findViewById(R.id.image_komen)
             if(komentar.foto==""){
                 image_komen.setImageResource(R.mipmap.ic_launcher)
             }else{
                 Picasso.get().load(komentar.foto).into(image_komen)
             }
+            itemView.setOnClickListener { listener.onItemClick(itemView, position) }
         }
     }
 }

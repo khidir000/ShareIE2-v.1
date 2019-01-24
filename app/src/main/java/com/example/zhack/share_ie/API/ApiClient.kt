@@ -137,6 +137,18 @@ interface ApiClient {
                          @Header("Authorization")Auth:String?,
                          @Path("id")id:Int?) : Call<user_detail>
 
+    @Headers(
+
+            "Accept:application/json",
+            "Content-Type: application/json",
+            "Client-Service:frontend-client",
+            "Auth-Key:simplerestapi"
+    )
+    @POST("komentar/create")
+    abstract fun getPostKomen(@Header("User-Id")UserId:String?,
+                              @Header("Authorization")Auth:String?,
+                              @Body body: komen_status) : Call<status>
+
     companion object {
         val BASE_URL = "https://elennovation.com/khidir/index.php/"
         fun create(): ApiClient {

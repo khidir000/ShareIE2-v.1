@@ -34,6 +34,7 @@ import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.berita.*
 import kotlinx.android.synthetic.main.design_bottom_sheet_dialog.*
 import kotlinx.android.synthetic.main.floating.*
+import kotlinx.android.synthetic.main.komentar.*
 import kotlinx.android.synthetic.main.tampilan_berita.view.*
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -47,6 +48,14 @@ import retrofit2.Response
 
 class control_berita : Fragment(), AdapterRv.Listener {
 
+
+    override fun onKomentar(view: View, position: Int) {
+
+        val komentar = Komentar(position)
+        komentar.show(fragmentManager?.beginTransaction(), komentar.tag)
+    }
+
+
     private var mCompositeDisposable:CompositeDisposable?=null
     private var mAndroidList:ArrayList<DataBerita>?=null
     public var mListKomentar:ArrayList<DataKomentar>?=null
@@ -55,18 +64,14 @@ class control_berita : Fragment(), AdapterRv.Listener {
     var sessionManagment:SessionManagment? = null
     private lateinit var pullToRefreshView: PullToRefreshView
 
-    override fun onItemClick(view:View) {
-        view.komentar.setOnClickListener {
-            val komentar = Komentar()
-            komentar.show(fragmentManager?.beginTransaction(),komentar.tag)
-
-        }
-    }
 
 //    override fun onResume() {
 //        super.onResume()
 //        shimmer.startShimmerAnimation()
 //    }
+
+    override fun onItemClick(view: View?, position: Int) {
+    }
 
     override fun onPause() {
         super.onPause()
@@ -140,22 +145,6 @@ class control_berita : Fragment(), AdapterRv.Listener {
                                 if (response.isSuccessful) {
                                     var res = response.body()!!.detail
                                     res.map {
-//                                        val user = retrofit.getUserAll(it.user_id, sessionManagment!!.UserToken(), Integer.parseInt(sessionManagment!!.UserId()))
-//                                        Log.d("Main aktifitas", sessionManagment!!.UserToken())
-//                                        user.enqueue(object : Callback<user_detail>{
-//                                            override fun onFailure(call: Call<user_detail>, t: Throwable) {
-//
-//                                            }
-//
-//                                            override fun onResponse(call: Call<user_detail>, response: Response<user_detail>) {
-//                                                if (response.isSuccessful) {
-//                                                    Log.d("Main aktifitas", response.body()!!.username)
-//                                                    var bodi = response.body()
-//                                                    sessionManagment!!.createUserDetail(bodi!!.username, bodi!!.name, bodi!!.foto, bodi!!.email, bodi!!.no_hp)
-//                                                }
-//                                            }
-//
-//                                        })
                                         sessionManagment!!.createUserDetail(it.username,it.name,it.foto, it.email, it.no_hp)
                                             Log.d("cek_error", it.foto)
                                     }
@@ -166,11 +155,26 @@ class control_berita : Fragment(), AdapterRv.Listener {
 
                         })
 
-                        var list:List<DataBerita> = response.body()!!.detail
+                        var list:List<DataBerita> = datum
                         mAndroidList = ArrayList(list)
                         madapter = AdapterRv(mAndroidList!!, this@control_berita)
                         datum.map {
-
+                            try {
+//                                var list:List<DataKomentar> = it.komentar
+//                                mListKomentar = ArrayList(list)
+//                                adapter = adapterKomentar(mListKomentar!!)
+//                                if(adapter != null){
+//
+//                                    rv_komen.adapter =  adapter
+//                                    rv_komen.setHasFixedSize(true)
+//                                    val layoutManager : RecyclerView.LayoutManager = LinearLayoutManager(requireContext())
+//                                    rv_komen.layoutManager = layoutManager
+//
+//                                }else{
+//                                    Log.d("control",mListKomentar?.get(1).toString())
+//                                }
+                            }catch (e:Exception){
+                            }
                         }
                         if(mAndroidList!!.count() >0){
                             try{

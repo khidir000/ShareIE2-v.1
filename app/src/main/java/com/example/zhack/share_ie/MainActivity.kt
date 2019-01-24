@@ -59,6 +59,7 @@ class MainActivity : AppCompatActivity() {
                                 berita.setColorFilter(R.color.colorPrimaryDark)
                                 berita.isEnabled = false
                                 user_menu.isEnabled = true
+                                jadwal.isEnabled = true
                                 seminar.isEnabled = true
                                 seminar.clearColorFilter()
                                 user_menu.alpha = 0.75F
@@ -71,6 +72,7 @@ class MainActivity : AppCompatActivity() {
                                 berita.clearColorFilter()
                                 berita.isEnabled = true
                                 user_menu.isEnabled = true
+                                jadwal.isEnabled = true
                                 seminar.isEnabled = false
                                 user_menu.alpha = 0.75F
                                 jadwal.clearColorFilter()
@@ -82,12 +84,25 @@ class MainActivity : AppCompatActivity() {
                                 berita.clearColorFilter()
                                 berita.isEnabled = true
                                 seminar.isEnabled = true
+                                jadwal.isEnabled = true
                                 user_menu.isEnabled = false
                                 jadwal.clearColorFilter()
                                 seminar.clearColorFilter()
                                 laporan.clearColorFilter()
                                 user_menu.alpha = 1F
                             }
+                        jadwal.setOnClickListener {
+                            initFragment(com.example.zhack.share_ie.jadwal.jadwal())
+                            berita.clearColorFilter()
+                            berita.isEnabled = true
+                            seminar.isEnabled = true
+                            user_menu.isEnabled = true
+                            jadwal.isEnabled = false
+                            jadwal.setColorFilter(R.color.colorPrimaryDark)
+                            seminar.clearColorFilter()
+                            laporan.clearColorFilter()
+                            user_menu.alpha = 0.75F
+                        }
                     }
                 }else{
                     session!!.logoutUser()

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -28,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/hitam"
-            android:textSize="15sp"/>
+            android:textSize="13sp"/>
         <View
             android:layout_width="4dp"
             android:layout_height="0dp"/>
@@ -37,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Komentar"
-            android:textSize="15sp"/>
+            android:textSize="13sp"/>
 
     </LinearLayout>
     <View
@@ -45,39 +46,51 @@
         android:layout_height="0.2dp"
         android:background="@color/hitam"
         android:layout_marginTop="3dp"/>
-    <ScrollView
-        android:layout_margin="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_komen"
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </android.support.v7.widget.RecyclerView>
-    </ScrollView>
-    <RelativeLayout
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <ProgressBar
+                    android:id="@+id/prog"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_height="200dp" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_komen"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:visibility="gone">
+                </android.support.v7.widget.RecyclerView>
+            </LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_margin="3dp"
-        android:paddingTop="10dp">
+        android:padding="5dp"
+        android:orientation="horizontal">
         <EditText
             android:id="@+id/et_komentar"
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
             android:layout_height="40dp"
+            android:paddingLeft="10dp"
             android:hint="Tulis komentar"
             android:textSize="15sp"
-            android:paddingLeft="10dp"
             android:background="@drawable/kolom_komentar"/>
-        <ImageButton
+        <View
+            android:layout_width="10dp"
+            android:layout_height="0dp"/>
+        <Button
+            android:id="@+id/et_komentar_btn"
             android:layout_alignRight="@+id/et_komentar"
-            android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:background="@drawable/btn_send"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
             android:layout_alignParentRight="true"
-            android:src="@drawable/send"/>
-    </RelativeLayout>
+            android:text="Kirim"
+            android:textAlignment="center"
+            android:textAllCaps="false"/>
+    </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>

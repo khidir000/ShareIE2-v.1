@@ -6,12 +6,14 @@ package com.example.zhack.share_ie.firebase
 
 import android.util.Log
 import com.example.zhack.share_ie.API.ApiClient
+import com.example.zhack.share_ie.R
 
 import com.example.zhack.share_ie.SessionManagment
 import com.example.zhack.share_ie.model.Token_api
 import com.example.zhack.share_ie.model.User
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.iid.FirebaseInstanceIdService
+import com.google.firebase.messaging.FirebaseMessaging
 
 import java.io.IOException
 
