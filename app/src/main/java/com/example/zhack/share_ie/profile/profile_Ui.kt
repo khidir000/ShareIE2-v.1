@@ -14,6 +14,7 @@ import com.example.zhack.share_ie.SessionManagment
 import com.example.zhack.share_ie.UI.create_status
 import com.example.zhack.share_ie.UI.jadwal_profile
 import com.example.zhack.share_ie.UI.profile_berita
+import com.example.zhack.share_ie.UI.profile_pribadi
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.profile.*
 
@@ -38,6 +39,7 @@ class profile_Ui : Fragment(), BottomNavigationView.OnNavigationItemSelectedList
             when(it.itemId){
                 R.id.jadwal_profile->{initFragment(jadwal_profile())}
                 R.id.berita_profile->{initFragment(profile_berita())}
+                R.id.person_profile->{initFragment(profile_pribadi())}
                 else -> {
                     initFragment(profile_berita())
                 }
@@ -46,7 +48,6 @@ class profile_Ui : Fragment(), BottomNavigationView.OnNavigationItemSelectedList
         }
 //        val fieldFragment = jadwal_profile()
 //        initFragment(fieldFragment)
-
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

@@ -27,7 +27,8 @@ class adapter_profile(private var dataList:ArrayList<DataBerita>
     }
 
     interface Listener{
-        fun onItemClick(view: View)
+        fun onItemClick(view: View, position: Int)
+        fun onKomentar(view: View, position: Int)
     }
 
     override fun onBindViewHolder(holder: DataHolder, position: Int) {
@@ -52,7 +53,11 @@ class adapter_profile(private var dataList:ArrayList<DataBerita>
                 }else{
                     Picasso.get().load(android.foto).into(image)
                 }
-                itemView.setOnClickListener{listener.onItemClick(itemView)}
+                itemView.dots.setOnClickListener{
+                    listener.onItemClick(it, position)}
+                itemView.komentar_profile.setOnClickListener {
+                    listener.onKomentar(it, position)
+                }
         }
     }
 

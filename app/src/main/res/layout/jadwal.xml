@@ -14,8 +14,8 @@
             app:title="Jadwal"
             app:titleTextColor="@color/garis"/>
     </android.support.design.widget.AppBarLayout>
-    <cn.zhouchaoyuan.excelpanel.ExcelPanel
-        android:id="@+id/content_container"
+    <ExpandableListView
+        android:id="@+id/lvExp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </LinearLayout>

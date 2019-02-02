@@ -18,7 +18,7 @@ class Adapter_seminar(private var data:ArrayList<seminar>,private var listener:L
     }
 
     interface Listener{
-        fun onItemClick(view: View)
+        fun onItemClick(view: View, position: Int)
     }
     override fun getItemCount(): Int = data.size
 
@@ -36,7 +36,7 @@ class Adapter_seminar(private var data:ArrayList<seminar>,private var listener:L
             itemView.lokasi.text = android.lokasi
             var image = itemView.findViewById<ImageView>(R.id.image)
             Picasso.get().load(android.foto).into(image)
-            itemView.setOnClickListener { listener.onItemClick(itemView) }
+            itemView.fab_dosen_seminar.setOnClickListener { listener.onItemClick(it, position) }
 
         }
     }

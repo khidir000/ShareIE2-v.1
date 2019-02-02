@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -35,7 +37,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getData().size() > 0) {
             try{
                 jsonObject = new JSONObject(remoteMessage.getData().toString());
-                sendNotification(jsonObject);
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                    sendNotification(jsonObject);
+                }else{
+                    sendNotification(jsonObject);
+                }
             }catch (Exception e){
 
             }
@@ -50,7 +56,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Check if message contains a notification payload.
 
     }
-
 
 
     private void sendNotification(JSONObject json) {
@@ -77,7 +82,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             }else{
                 //if there is an image
                 //displaying a big notification
-                mNotificationManager.showBigNotification(title, message, imageUrl, intent);
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                    mNotificationManager.createChannel();
+                    mNotificationManager.showBigNotification(title, message, intent);
+                }else{
+                    mNotificationManager.showBigNotification(title, message, intent);
+                }
             }
         } catch (JSONException e) {
             Log.e(TAG, "Json Exception: " + e.getMessage());

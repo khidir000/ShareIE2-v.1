@@ -2,6 +2,7 @@ package com.example.zhack.share_ie.seminar_detail
 
 import android.annotation.SuppressLint
 import android.app.ActivityOptions
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -23,6 +24,7 @@ import kotlinx.android.synthetic.main.buat_status.*
 import kotlinx.android.synthetic.main.list_seminar_category.*
 import kotlinx.android.synthetic.main.seminar.*
 import kotlinx.android.synthetic.main.seminar.view.*
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 import retrofit2.Call
 import retrofit2.Callback
@@ -33,20 +35,28 @@ public class seminar_detail:AppCompatActivity(),Adapter_seminar.Listener{
 
     var session:SessionManagment?=null
     var KEY_INTENT:String = "key"
+    private var position:Int = 0
+    private var hashMap = HashMap<Int, String>()
     private var mAndroidList:ArrayList<seminar>?=null
     var adapter:Adapter_seminar?=null
 
     @SuppressLint("RestrictedApi")
-    override fun onItemClick(view: View) {
-        view.fab_dosen_seminar.setOnClickListener {
-
+    override fun onItemClick(view: View, position:Int) {
+        this.position = position
+        var inten = Intent(this,dosen_seminar::class.java)
+        inten.putExtra("nilai", hashMap[position]!!.toInt())
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
                 var option = ActivityOptions.makeSceneTransitionAnimation(this,fab_dosen_seminar,fab_dosen_seminar.transitionName)
-                startActivityForResult(Intent(this,dosen_seminar::class.java),2000,option.toBundle())
+                startActivityForResult(inten,2000)
             }else{
-                startActivityForResult(Intent(this,dosen_seminar::class.java),2000)
+                startActivityForResult(inten,2000)
             }
-        }
+
+
+//        var dialog = AlertDialog.Builder(this)
+//        var view = layoutInflater.inflate(R.layout.activity_dosen_seminar, null)
+//        dialog.setView(view)
+
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,6 +89,10 @@ public class seminar_detail:AppCompatActivity(),Adapter_seminar.Listener{
                 if (response.isSuccessful) {
 
                     var list:List<seminar> = response.body()!!.detail
+
+                    for (i in 0..list.count()-1){
+                        hashMap[i] = list.get(i).id_seminar.toString()
+                    }
                     mAndroidList = ArrayList(list)
                     adapter = Adapter_seminar(mAndroidList!!,this@seminar_detail)
                     recycler.adapter = adapter
@@ -87,6 +101,11 @@ public class seminar_detail:AppCompatActivity(),Adapter_seminar.Listener{
             }
 
         })
+    }
+
+    public fun hasmap():HashMap<Int, String>{
+        var hashMap:HashMap<Int,String> = hashMap
+        return hashMap
     }
 
     private fun initRecyclerView() {

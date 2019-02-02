@@ -1,13 +1,17 @@
 package com.example.zhack.share_ie
 
+import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import com.example.zhack.share_ie.API.ApiClient
 import com.example.zhack.share_ie.UI.profile_berita
 import com.example.zhack.share_ie.UI.seminar_list
@@ -25,14 +29,28 @@ import org.jetbrains.anko.image
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.jar.Manifest
 
 class MainActivity : AppCompatActivity() {
 
     var session:SessionManagment? = null
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        when(requestCode){
+            1->{
+                if(grantResults.count()>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+
+                }else{
+                    Toast.makeText(this, "Permission denied to read your External storage", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+        return
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         session = SessionManagment(applicationContext)
         session!!.checkLogin()
 
@@ -110,6 +128,7 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+
 
 
     }

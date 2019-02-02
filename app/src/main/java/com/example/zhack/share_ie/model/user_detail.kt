@@ -28,5 +28,9 @@ data class user_detail (
         @SerializedName("alamat")
         var alamat:String?=null,
         @SerializedName("level")
-        var level:String?=null
+        var level:String?=null,
+        @SerializedName("Konsenstrasi")
+        var konsentrasi:String?=null,
+        @SerializedName("thn_masuk")
+        var thn_masuk:String?=null
 )

@@ -104,6 +104,17 @@ interface ApiClient {
             "Client-Service:frontend-client",
             "Auth-Key:simplerestapi"
     )
+    @POST("auth/logout")
+    abstract fun getUserLogout(@Header("User-Id")UserId:String?,
+                               @Header("Authorization")Auth:String?):Call<User>
+
+    @Headers(
+
+            "Accept:application/json",
+            "Content-Type: application/json",
+            "Client-Service:frontend-client",
+            "Auth-Key:simplerestapi"
+    )
     @GET("users/detail/{id}")
     abstract fun getUserDetail(@Header("User-Id")UserId:String?,
                            @Header("Authorization")Auth:String?,
@@ -135,7 +146,7 @@ interface ApiClient {
     @GET("users/detail/{id}")
     abstract fun getUserAll(@Header("User-Id")UserId:String?,
                          @Header("Authorization")Auth:String?,
-                         @Path("id")id:Int?) : Call<user_detail>
+                         @Path("id")id:Int?) : Call<status_user_detail>
 
     @Headers(
 
@@ -148,6 +159,67 @@ interface ApiClient {
     abstract fun getPostKomen(@Header("User-Id")UserId:String?,
                               @Header("Authorization")Auth:String?,
                               @Body body: komen_status) : Call<status>
+
+    @Headers(
+
+            "Accept:application/json",
+            "Content-Type: application/json",
+            "Client-Service:frontend-client",
+            "Auth-Key:simplerestapi"
+    )
+    @DELETE( "berita/delete/{id}")
+    abstract fun getDeleteBerita(@Header("User-Id")UserId:String?,
+                                 @Header("Authorization")Auth:String?,
+                                 @Path("id") Id:Int?) : Call<status>
+
+    @Headers(
+
+            "Accept:application/json",
+            "Content-Type: application/json",
+            "Client-Service:frontend-client",
+            "Auth-Key:simplerestapi"
+    )
+    @PUT("berita/update/{id}")
+    abstract fun getUpdateBerita(@Header("User-Id")UserId:String?,
+                                 @Header("Authorization")Auth:String?,
+                                 @Path("id") Id:Int?,
+                                 @Body  body:berita_edit): Call<status>
+
+
+    @Headers(
+
+            "Accept:application/json",
+            "Content-Type: application/json",
+            "Client-Service:frontend-client",
+            "Auth-Key:simplerestapi"
+    )
+    @POST("sendAllDevice/onedevice")
+    abstract fun getNotiftoOne(@Query("title")title:String,
+                               @Query("message")pesan:String,
+                               @Query("imgage")image:String,
+                               @Query("id")id:Int):Call<notif_status>
+
+    @Headers(
+
+            "Accept:application/json",
+            "Content-Type: application/json",
+            "Client-Service:frontend-client",
+            "Auth-Key:simplerestapi"
+    )
+    @GET("seminar/dosen_seminar/{id}")
+    abstract fun getDosenSeminar(@Header("User-Id")UserId:String?,
+                                 @Header("Authorization")Auth:String?,
+                                 @Path("id")id:Int):Call<status_dosen_seminar>
+    @Headers(
+
+            "Accept:application/json",
+            "Content-Type: application/json",
+            "Client-Service:frontend-client",
+            "Auth-Key:simplerestapi"
+    )
+    @GET("jadwal")
+    abstract fun getJadwal(@Header("User-Id")UserId:String?,
+                                 @Header("Authorization")Auth:String?):Call<status_jadwal>
 
     companion object {
         val BASE_URL = "https://elennovation.com/khidir/index.php/"

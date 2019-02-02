@@ -25,7 +25,9 @@ class AdapterRv(private var dataList:ArrayList<DataBerita>
     :RecyclerView.Adapter<AdapterRv.DataHolder>(), Filterable {
     private var datalis:ArrayList<DataBerita>? = dataList
     private var datbaru:ArrayList<DataBerita> = dataList
-
+    fun AdapterRv():ArrayList<DataBerita>{
+        return dataList
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataHolder {
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.tampilan_berita,parent,false)
@@ -59,6 +61,8 @@ class AdapterRv(private var dataList:ArrayList<DataBerita>
                             Log.d("cek_bisa",it.isi_berita)
                         }
                     }
+                    FilterResults().count = temp.size
+                    FilterResults().values = temp
                     dataList = temp
                     Log.d("isi_datalis",dataList.toString())
                 }
@@ -72,10 +76,10 @@ class AdapterRv(private var dataList:ArrayList<DataBerita>
             override fun publishResults(p0: CharSequence, filterResults: FilterResults?) {
                 dataList = filterResults?.values as ArrayList<DataBerita>
                 Log.d("publihfilter",datalis.toString())
-                notifyDataSetChanged()
             }
 
         }
+        return filter
     }
 
 

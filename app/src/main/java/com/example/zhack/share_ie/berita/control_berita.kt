@@ -26,6 +26,7 @@ import com.example.zhack.share_ie.komentar.adapterKomentar
 import com.example.zhack.share_ie.model.*
 import com.lapism.searchview.Search
 import com.lapism.searchview.widget.SearchBar
+import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.squareup.picasso.Picasso
 import com.yalantis.phoenix.PullToRefreshView
 import io.reactivex.disposables.CompositeDisposable
@@ -49,26 +50,30 @@ import retrofit2.Response
 class control_berita : Fragment(), AdapterRv.Listener {
 
 
-    override fun onKomentar(view: View, position: Int) {
-
-        val komentar = Komentar(position)
-        komentar.show(fragmentManager?.beginTransaction(), komentar.tag)
-    }
-
-
     private var mCompositeDisposable:CompositeDisposable?=null
     private var mAndroidList:ArrayList<DataBerita>?=null
     public var mListKomentar:ArrayList<DataKomentar>?=null
     private var madapter: AdapterRv? = null
+    public var hashMap = HashMap<Int,String>()
     public var adapter:adapterKomentar? = null
     var sessionManagment:SessionManagment? = null
     private lateinit var pullToRefreshView: PullToRefreshView
+    public var posisi:Int = 0
 
 
 //    override fun onResume() {
 //        super.onResume()
 //        shimmer.startShimmerAnimation()
 //    }
+
+    override fun onKomentar(view: View, position: Int) {
+
+        posisi = position
+        Log.d("mListkomen", mAndroidList!![posisi].id_berita.toString()+" "+posisi.toString())
+        val komentar = Komentar(position)
+        komentar.show(fragmentManager?.beginTransaction(), komentar.tag)
+    }
+
 
     override fun onItemClick(view: View?, position: Int) {
     }
@@ -157,25 +162,11 @@ class control_berita : Fragment(), AdapterRv.Listener {
 
                         var list:List<DataBerita> = datum
                         mAndroidList = ArrayList(list)
+                        var listkomen:List<DataKomentar> = list.get(posisi).komentar
+                        mListKomentar = ArrayList(listkomen)
+                        var nil = posisi
+                        Log.d("mListkomentar", mAndroidList!!.get(nil).id_berita.toString()+" "+posisi.toString())
                         madapter = AdapterRv(mAndroidList!!, this@control_berita)
-                        datum.map {
-                            try {
-//                                var list:List<DataKomentar> = it.komentar
-//                                mListKomentar = ArrayList(list)
-//                                adapter = adapterKomentar(mListKomentar!!)
-//                                if(adapter != null){
-//
-//                                    rv_komen.adapter =  adapter
-//                                    rv_komen.setHasFixedSize(true)
-//                                    val layoutManager : RecyclerView.LayoutManager = LinearLayoutManager(requireContext())
-//                                    rv_komen.layoutManager = layoutManager
-//
-//                                }else{
-//                                    Log.d("control",mListKomentar?.get(1).toString())
-//                                }
-                            }catch (e:Exception){
-                            }
-                        }
                         if(mAndroidList!!.count() >0){
                             try{
                                 text_gone.visibility = View.INVISIBLE
@@ -183,6 +174,8 @@ class control_berita : Fragment(), AdapterRv.Listener {
                                 rv.visibility = View.VISIBLE
                                 shimmer.stopShimmerAnimation()
                                 shimmer_layout.visibility = View.INVISIBLE
+                                var list_komentar = list.get(posisi).komentar
+                                Log.d("pesan_kome", list_komentar[posisi].berita_id.toString())
                             }catch (e:Exception){
                                 e.message
                             }
@@ -215,6 +208,13 @@ class control_berita : Fragment(), AdapterRv.Listener {
         rv.layoutManager = layoutManager
     }
 
+    fun hasmap():HashMap<Int, String>{
+        for(i in 0..mAndroidList!!.count()-1){
+            hashMap[i] = mAndroidList!![i].id_berita.toString()
+        }
+        return hashMap
+    }
+
     fun showList(){
         mAndroidList?.clear()
         mAndroidList?.addAll(mAndroidList!!)
@@ -232,9 +232,13 @@ class control_berita : Fragment(), AdapterRv.Listener {
             override fun onQueryTextChange(newText: CharSequence?) {
                 Log.d("searchbar",newText.toString())
                 madapter!!.filter.filter(newText)
+                madapter?.notifyDataSetChanged()
+                rv.adapter = madapter
             }
 
         })
+
+
     }
 
 //    fun loadData(){
